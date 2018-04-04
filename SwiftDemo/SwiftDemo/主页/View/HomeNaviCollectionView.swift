@@ -7,6 +7,11 @@
 //
 
 import UIKit
+import SwiftyJSON
+
+private let apiUrl = "apiUrl"
+private let id = "id"
+private let name = "name"
 
 class HomeNaciCollectionCell : UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
@@ -34,8 +39,15 @@ class HomeNaciCollectionCell : UICollectionViewCell {
 }
 
 class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UICollectionViewDataSource {
-
-    let indexView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 60, height: 2))
+    
+    var itemList : Array<Any>!{
+        didSet{
+            self.reloadData()
+        }
+    }
+    
+    private let indexView = UIView.init(frame: CGRect.init(x: 60, y: 38, width: 60, height: 2))
+    private var currentIndex = 1
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -45,27 +57,45 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
         self.delegate = self
         self.dataSource = self
         
+        self.showsHorizontalScrollIndicator = false
+        self.backgroundColor = UIColor.clear
+        
         indexView.backgroundColor = UIColor.purple
         self.addSubview(indexView)
     }
     
+    private func moveIndexView(item:Int, collection:UICollectionView, animation:Bool)  {
+        let cell = collection.cellForItem(at: IndexPath.init(row: item, section: 0))
+        let duration = animation ? 0.2:0.0
+        UIView.animate(withDuration: duration) {
+            self.indexView.center = CGPoint.init(x: (cell?.center.x)!, y: 39)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8;
+        return (itemList != nil) ? itemList!.count : 0;
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeNaciCollectionCell", for: indexPath) as! HomeNaciCollectionCell
-        cell.titleLb.text = "\(indexPath.item)"
-        cell.backgroundColor = UIColor.blue
-        cell.titleLb.textColor = cell.isSelected ? UIColor.red : UIColor.black
+        
+        print(itemList[indexPath.item] )
+        
+        let dic:Dictionary<String,Any> = itemList[indexPath.item] as! Dictionary<String,Any>
+        
+        cell.titleLb.text = (dic[name] as! String)
+        cell.titleLb.textColor = indexPath.item == currentIndex ? UIColor.gray : UIColor.black
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        let cell = collectionView.cellForItem(at: indexPath)
-        indexView.center = CGPoint.init(x: (cell?.center.x)!, y: 39)
+        
+        currentIndex = indexPath.item
+        moveIndexView(item: currentIndex, collection: collectionView, animation: true)
+        collectionView.reloadData()
     }
     
     required init?(coder aDecoder: NSCoder) {

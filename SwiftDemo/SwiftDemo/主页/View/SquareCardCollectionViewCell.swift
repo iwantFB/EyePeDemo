@@ -9,5 +9,18 @@
 import UIKit
 
 class SquareCardCollectionViewCell : UICollectionViewCell {
+ 
     
+    @IBOutlet weak var videoImageView: UIImageView!
+    @IBOutlet weak var headerTitleLb: UILabel!
+    @IBOutlet weak var headerDescriptionLb: UILabel!
+    
+    // MARK- action
+    @IBAction func shareBtnAction(_ sender: UIButton) {
+        print("弹出分享弹框")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
 }

@@ -29,10 +29,16 @@ class FHTabbarViewController : UITabBarController {
         for i in 0...3 {
             configTabbarItem(vc: vcs[i], title: titles[i] as NSString)
         }
-        self.viewControllers = vcs;
+        
+        let naviArr = NSMutableArray.init()
+        for vc in vcs {
+            let navi = FHNavigationViewController.init(rootViewController: vc)
+            naviArr.add(navi)
+        }
+        self.viewControllers = (naviArr as! [UIViewController]);
     }
     
-    func configTabbarItem(vc:UIViewController ,title:NSString ) {
+    private func configTabbarItem(vc:UIViewController ,title:NSString ) {
         vc.title = title as String;
     }
 }

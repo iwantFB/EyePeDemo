@@ -15,6 +15,9 @@ let SCREEN_HEIGHT = UIScreen.main.bounds.size.height
 
 let isIphoneX = SCREEN_HEIGHT == 812 ? true : false
 let NAVIGATIONBAR_HEIGHT : CGFloat = isIphoneX ? 88 : 64
+let STATUSBAR_HEIGHT : CGFloat = isIphoneX ? 44 : 20
 
 let TABBAR_HEIGHT : CGFloat = isIphoneX ? 49 + 34 : 49
+
+let headerHeight:CGFloat = 60
 
