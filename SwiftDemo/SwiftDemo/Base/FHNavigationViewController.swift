@@ -13,9 +13,9 @@ class  FHNavigationViewController : UINavigationController {
     let naviBarView = UIView()
     
     override func viewDidLoad() {
-        self.navigationBar.isHidden = true
+//        self.navigationBar.isHidden = true
         
-        p_setupUI()
+//        p_setupUI()
     }
     
     private func p_setupUI()  {

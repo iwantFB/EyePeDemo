@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import FSPagerView
 
-class SquareCardCollectionCell : UITableViewCell ,UICollectionViewDelegate, UICollectionViewDataSource {
+class SquareCardCollectionCell : UITableViewCell,FSPagerViewDataSource,FSPagerViewDelegate  {
 
-    private var cardCollectionView:UICollectionView!
+    private let pagerView = FSPagerView.init()
     private let headerTitlelb = UILabel()
     private let headerSubTitlelb = UILabel()
     
@@ -22,8 +23,8 @@ class SquareCardCollectionCell : UITableViewCell ,UICollectionViewDelegate, UICo
     
     private func p_setupUI(){
         
-//        headerSubTitlelb.text = "4月4号"
-//        headerTitlelb.text = "开眼今日编辑精选"
+        headerSubTitlelb.text = "4月4号"
+        headerTitlelb.text = "开眼今日编辑精选"
         self.addSubview(headerTitlelb)
         self.addSubview(headerSubTitlelb)
         headerSubTitlelb.snp.makeConstraints { (make) in
@@ -36,34 +37,31 @@ class SquareCardCollectionCell : UITableViewCell ,UICollectionViewDelegate, UICo
             make.leading.equalTo(headerSubTitlelb)
         }
         
-        let flowLayout = UICollectionViewFlowLayout.init()
-        let itemHeight = 300;
-        flowLayout.itemSize = CGSize.init(width: Int(SCREEN_WIDTH - 30), height: itemHeight)
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumLineSpacing = 10;
-        cardCollectionView = UICollectionView.init(frame: CGRect.zero, collectionViewLayout: flowLayout)
-        cardCollectionView.contentInset = UIEdgeInsets.init(top: 0, left: 15, bottom: 0, right: 15)
-        self.addSubview(cardCollectionView)
-        cardCollectionView.snp.makeConstraints { (make) in
+        let cellHeight:Float = 300.0
+        pagerView.dataSource = self
+        pagerView.delegate = self
+        pagerView.itemSize = CGSize.init(width: SCREEN_WIDTH - 30, height: CGFloat(cellHeight))
+        pagerView.interitemSpacing = 10
+        pagerView.register(UINib.init(nibName: "SquareCardCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
+        self.addSubview(pagerView)
+        pagerView.snp.makeConstraints { (make) in
+            make.top.equalTo(headerTitlelb.snp.bottom).offset(10)
             make.left.right.bottom.equalTo(self)
-            make.top.equalTo(headerTitlelb.snp.bottom)
-            make.height.equalTo(itemHeight)
+            make.height.equalTo(cellHeight)
         }
-        cardCollectionView.register(UINib.init(nibName: "SquareCardCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SquareCardCollectionViewCell")
-        cardCollectionView.delegate = self
-        cardCollectionView.dataSource = self
-        cardCollectionView.isPagingEnabled = true
+        
     }
     
-    // MARK -
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SquareCardCollectionViewCell", for: indexPath)
-        cell.backgroundColor = UIColor.blue
+    public func numberOfItems(in pagerView: FSPagerView) -> Int {
+        return 5
+    }
+    
+    public func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
+        let cell:SquareCardCollectionViewCell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index) as! SquareCardCollectionViewCell
+        cell.videoImageView.image = UIImage.init(named: "beauty")
+        cell.headerTitleLb.text = "wow"
+        cell.headerDescriptionLb.text = "cool man"
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
     }
     
     required init?(coder aDecoder: NSCoder) {

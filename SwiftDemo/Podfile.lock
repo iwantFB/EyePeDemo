@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.7.1)
+  - FSPagerView (0.7.1)
   - SDWebImage (4.3.3):
     - SDWebImage/Core (= 4.3.3)
   - SDWebImage/Core (4.3.3)
@@ -8,16 +9,18 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
+  - FSPagerView
   - SDWebImage (~> 4.0)
   - SnapKit (~> 4.0.0)
   - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 68d7d521118d49c615a8d2214d87cdf525599d30
+  FSPagerView: 958aba39684e1573755ddcfcc29f7eebb8413cee
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 9be9f4cdf291c452171c573a2c80a731885fbaa9
+PODFILE CHECKSUM: c4796313be502419eb6b6a50a93623c2924fff80
 
 COCOAPODS: 1.3.1

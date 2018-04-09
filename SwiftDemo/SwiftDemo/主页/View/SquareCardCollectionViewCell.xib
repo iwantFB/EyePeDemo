@@ -87,6 +87,11 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="headerDescriptionLb" destination="lI5-oE-YkB" id="XSq-cl-6P6"/>
+                <outlet property="headerTitleLb" destination="xRN-l3-9TT" id="h6A-YF-T4g"/>
+                <outlet property="videoImageView" destination="eM2-9v-qOD" id="gl9-K8-4A4"/>
+            </connections>
             <point key="canvasLocation" x="-5" y="-44"/>
         </view>
     </objects>

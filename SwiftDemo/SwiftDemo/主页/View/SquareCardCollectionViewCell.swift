@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import FSPagerView
 
-class SquareCardCollectionViewCell : UICollectionViewCell {
+class SquareCardCollectionViewCell : FSPagerViewCell {
  
     
     @IBOutlet weak var videoImageView: UIImageView!
