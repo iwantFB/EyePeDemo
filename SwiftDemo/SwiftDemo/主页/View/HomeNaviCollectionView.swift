@@ -40,6 +40,16 @@ class HomeNaciCollectionCell : UICollectionViewCell {
 
 class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UICollectionViewDataSource {
     
+    var currentIndex = 1 {
+        didSet{
+            guard currentIndex >= 0 else {
+                return
+            }
+            self .scrollToItem(at: IndexPath.init(row: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
+            moveIndexView(item: currentIndex, collection: self, animation: true)
+        }
+    }
+    
     var itemList : Array<Any>!{
         didSet{
             self.reloadData()
@@ -47,7 +57,6 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
     }
     
     private let indexView = UIView.init(frame: CGRect.init(x: 60, y: 38, width: 60, height: 2))
-    private var currentIndex = 1
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -93,7 +102,7 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
         
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
-        currentIndex = indexPath.item
+        self.currentIndex = indexPath.item
         moveIndexView(item: currentIndex, collection: collectionView, animation: true)
         collectionView.reloadData()
     }

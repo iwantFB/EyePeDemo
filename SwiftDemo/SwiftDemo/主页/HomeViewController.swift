@@ -13,10 +13,25 @@ import SnapKit
 private let tabInfo = "tabInfo"
 private let tabList = "tabList"
 
-class HomeViewController : UIViewController{
+class HomeViewController : UIViewController, UIScrollViewDelegate{
     
     var naviTopView : HomeNaviCollectionView!
     let vcContentView = UIScrollView.init();
+    var itemList = NSMutableArray.init(){
+        didSet{
+            self.naviTopView.itemList = itemList as! Array<Any>
+            let vcHeight = SCREEN_HEIGHT - TABBAR_HEIGHT - NAVIGATIONBAR_HEIGHT
+            vcContentView.contentSize = CGSize.init(width: SCREEN_WIDTH * CGFloat(self.naviTopView.itemList.count), height: vcHeight)
+            for i in 0...itemList.count {
+                let tableVC = HomeTableViewController.init()
+                tableVC.willMove(toParentViewController: self)
+                self.addChildViewController(tableVC)
+                vcContentView.addSubview(tableVC.view)
+                tableVC.view.frame = CGRect.init(x: CGFloat(i) * SCREEN_WIDTH, y: 0, width: SCREEN_WIDTH, height: vcHeight)
+                tableVC.didMove(toParentViewController: self)
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,27 +48,43 @@ class HomeViewController : UIViewController{
         flowLayout.minimumLineSpacing = 0;
         
         naviTopView = HomeNaviCollectionView.init(frame: CGRect.init(x: 40, y: STATUSBAR_HEIGHT, width: SCREEN_WIDTH - 80.0, height: 40), collectionViewLayout: flowLayout)
-//        (self.navigationController as! FHNavigationViewController).naviBarView.addSubview(naviTopView)
         self.navigationItem.titleView = naviTopView
         
         self.view.addSubview(vcContentView)
         vcContentView.contentSize = CGSize.init(width: SCREEN_WIDTH * 4, height: SCREEN_HEIGHT - TABBAR_HEIGHT - NAVIGATIONBAR_HEIGHT)
         vcContentView.isPagingEnabled = true
+        vcContentView.delegate = self
         vcContentView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view).inset(UIEdgeInsets.init(top: NAVIGATIONBAR_HEIGHT, left: 0, bottom: TABBAR_HEIGHT, right: 0))
         }
         
+        //尝试用KVO做联动
+        naviTopView.addObserver(self, forKeyPath: "currentIndex", options: .new, context: nil)
+        
         getNetData()
     }
     
-    //MARK- network
+    //MARK:- KVO
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        let index = change![.newKey] as! CGFloat
+        vcContentView.setContentOffset(CGPoint.init(x: index * SCREEN_WIDTH, y: 0), animated: true)
+    }
+    
+    //MARK:- network
     private func getNetData()  {
         let urlStr = "https://baobab.kaiyanapp.com/api/v5/index/tab/list"
         NetworkTool.get(urlStr, parameters: nil) { (flag, json, cool) in
             
             let result:Dictionary<String,AnyObject> = json.dictionaryObject! as Dictionary<String,AnyObject>
-            self.naviTopView.itemList = (result[tabInfo]![tabList])as!Array<Any>
-            self.vcContentView.contentSize = CGSize.init(width: SCREEN_WIDTH * CGFloat(self.naviTopView.itemList.count), height: SCREEN_HEIGHT - TABBAR_HEIGHT - NAVIGATIONBAR_HEIGHT)
+            self.itemList = NSMutableArray.init(array: (result[tabInfo]![tabList])as!Array<Any>)
         }
+    }
+    
+    //MARK:- scrollViewDelegate
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let offSetX = scrollView.contentOffset.x
+        let index = Int(offSetX / SCREEN_WIDTH)
+        naviTopView.currentIndex = index
+        
     }
 }

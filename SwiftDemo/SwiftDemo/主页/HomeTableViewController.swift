@@ -10,6 +10,13 @@ import UIKit
 
 class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource {
     
+    //请求参数
+    var url:String? {
+        didSet{
+            getHomeData(url: url!)
+        }
+    }
+    
     private let itemList = NSMutableArray.init()
     private var totalCount = 0;
     private let cellIDArr : Array = ["horizontalScrollCard","textCard","followCard","videoSmallCard","briefCard","squareCardCollection","videoCollectionWithBrief","DynamicInfoCard"]
@@ -54,9 +61,8 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     }
     
     //MARK- network
-    private func getHomeData()  {
-        let urlStr = "https://baobab.kaiyanapp.com/api/v5/index/tab/discovery"
-        NetworkTool.get(urlStr, parameters: nil) { (flag, json, cool) in
+    private func getHomeData(url:String)  {
+        NetworkTool.get(url, parameters: nil) { (flag, json, cool) in
             let result:Dictionary<String,AnyObject> = json.dictionaryObject! as Dictionary<String,AnyObject>
             self.totalCount += result["count"] as! Int
             self.itemList.addObjects(from: result["itemList"] as! [Any])
