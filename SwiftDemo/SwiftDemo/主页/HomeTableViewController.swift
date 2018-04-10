@@ -22,6 +22,11 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     private let cellIDArr : Array = ["horizontalScrollCard","textCard","followCard","videoSmallCard","briefCard","squareCardCollection","videoCollectionWithBrief","DynamicInfoCard"]
     private let tableView = UITableView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 300), style: UITableViewStyle.plain)
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        p_setupUI()
+    }
     
     func p_setupUI()  {
         self.view.addSubview(tableView)
@@ -31,8 +36,7 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.view).offset(NAVIGATIONBAR_HEIGHT)
-            make.left.right.bottom.equalTo(self.view)
+            make.edges.equalTo(self.view)
         }
     }
     
@@ -63,9 +67,13 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     //MARK- network
     private func getHomeData(url:String)  {
         NetworkTool.get(url, parameters: nil) { (flag, json, cool) in
-            let result:Dictionary<String,AnyObject> = json.dictionaryObject! as Dictionary<String,AnyObject>
-            self.totalCount += result["count"] as! Int
-            self.itemList.addObjects(from: result["itemList"] as! [Any])
+            
+//            let data = try? JSONSerialization.data(withJSONObject: json, options: [])
+//            let jsonString = String(data: data!, encoding: String.Encoding.utf8)
+            let result = [HomeItemModel].deserialize(from: json.rawString(), designatedPath:".itemList")
+            
+            self.totalCount += result!.count
+            self.itemList.addObjects(from: result!)
             self.tableView.reloadData()
         }
     }

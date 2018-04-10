@@ -21,3 +21,6 @@ let TABBAR_HEIGHT : CGFloat = isIphoneX ? 49 + 34 : 49
 
 let headerHeight:CGFloat = 60
 
+//module导入
+import SDWebImage
+

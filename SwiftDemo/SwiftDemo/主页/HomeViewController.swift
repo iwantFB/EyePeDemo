@@ -19,9 +19,9 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
     let vcContentView = UIScrollView.init();
     var itemList = NSMutableArray.init(){
         didSet{
-            self.naviTopView.itemList = itemList as! Array<Any>
+            let count = itemList.count
             let vcHeight = SCREEN_HEIGHT - TABBAR_HEIGHT - NAVIGATIONBAR_HEIGHT
-            vcContentView.contentSize = CGSize.init(width: SCREEN_WIDTH * CGFloat(self.naviTopView.itemList.count), height: vcHeight)
+            vcContentView.contentSize = CGSize.init(width: SCREEN_WIDTH * CGFloat(count), height: vcHeight)
             for i in 0...itemList.count {
                 let tableVC = HomeTableViewController.init()
                 tableVC.willMove(toParentViewController: self)
@@ -30,6 +30,8 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
                 tableVC.view.frame = CGRect.init(x: CGFloat(i) * SCREEN_WIDTH, y: 0, width: SCREEN_WIDTH, height: vcHeight)
                 tableVC.didMove(toParentViewController: self)
             }
+            
+            self.naviTopView.itemList = itemList as! Array<Any>
         }
     }
 
@@ -48,8 +50,10 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
         flowLayout.minimumLineSpacing = 0;
         
         naviTopView = HomeNaviCollectionView.init(frame: CGRect.init(x: 40, y: STATUSBAR_HEIGHT, width: SCREEN_WIDTH - 80.0, height: 40), collectionViewLayout: flowLayout)
-        naviTopView.postValueBlock = { (index) in
+        naviTopView.postValueBlock = { (index,apiUrl) in
             self.vcContentView.setContentOffset(CGPoint.init(x: CGFloat(index) * SCREEN_WIDTH, y: 0), animated: true)
+            
+            self.selectedUrl(url: apiUrl, index: index)
         }
         self.navigationItem.titleView = naviTopView
         
@@ -64,6 +68,11 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
         getNetData()
     }
 
+    func selectedUrl(url:String , index:Int){
+        let tableVC = self.childViewControllers[index] as! HomeTableViewController
+        tableVC.url = url
+    }
+    
     //MARK:- network
     private func getNetData()  {
         let urlStr = "https://baobab.kaiyanapp.com/api/v5/index/tab/list"
@@ -78,8 +87,13 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let offSetX = scrollView.contentOffset.x
         let index = Int(offSetX / SCREEN_WIDTH)
-        print("look \(index)")
+        print("滑动 = \(naviTopView.currentUrl)")
         naviTopView.currentIndex = index
-        
+        selectedUrl(url: naviTopView.currentUrl, index: index)
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        //获取url
+        print("点击 = \(naviTopView.currentUrl)")
     }
 }
