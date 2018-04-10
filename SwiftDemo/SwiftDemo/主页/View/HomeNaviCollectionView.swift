@@ -38,14 +38,23 @@ class HomeNaciCollectionCell : UICollectionViewCell {
     }
 }
 
+typealias closureBlock = (Int,String) -> Void
+
 class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UICollectionViewDataSource {
+    //传值闭包
+    var postValueBlock:closureBlock?
+    var currentUrl:String{
+        get{
+            let dic:Dictionary<String,Any> = itemList[currentIndex] as! Dictionary<String,Any>
+            return dic[apiUrl] as! String
+        }
+    }
     
-    var currentIndex = 1 {
+    var currentIndex =  0{
         didSet{
             guard currentIndex >= 0 else {
                 return
             }
-            print("\(currentIndex)")
             self.scrollToItem(at: IndexPath.init(row: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
             moveIndexView(item: currentIndex, collection: self, animation: true)
             self.reloadData()
@@ -58,7 +67,7 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
         }
     }
     
-    private let indexView = UIView.init(frame: CGRect.init(x: 60, y: 38, width: 60, height: 2))
+    private let indexView = UIView.init(frame: CGRect.init(x: 0, y: 38, width: 60, height: 2))
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -91,8 +100,6 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeNaciCollectionCell", for: indexPath) as! HomeNaciCollectionCell
         
-        print(itemList[indexPath.item] )
-        
         let dic:Dictionary<String,Any> = itemList[indexPath.item] as! Dictionary<String,Any>
         
         cell.titleLb.text = (dic[name] as! String)
@@ -104,7 +111,16 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
         
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
-        self.currentIndex = indexPath.item
+        let item = indexPath.item
+        guard currentIndex != item else {
+            return
+        }
+        self.currentIndex = item
+        let dic:Dictionary<String,Any> = itemList[item] as! Dictionary<String,Any>
+        
+        if postValueBlock != nil{
+            postValueBlock!(indexPath.item,(dic[apiUrl] as! String))
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

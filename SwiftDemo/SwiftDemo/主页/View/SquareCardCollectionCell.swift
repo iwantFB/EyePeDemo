@@ -9,8 +9,20 @@
 import UIKit
 import FSPagerView
 
+fileprivate let header = "header"
+fileprivate let header_title = "title"
+fileprivate let header_subTitle = "subTitle"
+fileprivate let itemList = "itemList"
+
 class SquareCardCollectionCell : UITableViewCell,FSPagerViewDataSource,FSPagerViewDelegate  {
 
+    var dataDic = Dictionary<String,Dictionary<String,Any>>(){
+        didSet{
+//            headerSubTitlelb.text = 
+            headerTitlelb.text = "开眼今日编辑精选"
+        }
+    }
+    
     private let pagerView = FSPagerView.init()
     private let headerTitlelb = UILabel()
     private let headerSubTitlelb = UILabel()
@@ -23,8 +35,6 @@ class SquareCardCollectionCell : UITableViewCell,FSPagerViewDataSource,FSPagerVi
     
     private func p_setupUI(){
         
-        headerSubTitlelb.text = "4月4号"
-        headerTitlelb.text = "开眼今日编辑精选"
         self.addSubview(headerTitlelb)
         self.addSubview(headerSubTitlelb)
         headerSubTitlelb.snp.makeConstraints { (make) in
@@ -58,6 +68,7 @@ class SquareCardCollectionCell : UITableViewCell,FSPagerViewDataSource,FSPagerVi
     
     public func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let cell:SquareCardCollectionViewCell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index) as! SquareCardCollectionViewCell
+        
         cell.videoImageView.image = UIImage.init(named: "beauty")
         cell.headerTitleLb.text = "wow"
         cell.headerDescriptionLb.text = "cool man"

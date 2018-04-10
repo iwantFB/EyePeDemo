@@ -7,4 +7,5 @@ target 'SwiftDemo' do
 	pod 'SnapKit', '~> 4.0.0'
 	pod 'SDWebImage', '~> 4.0'
 	pod 'FSPagerView'
+	pod 'HandyJSON', '~> 4.1.1'
 end  

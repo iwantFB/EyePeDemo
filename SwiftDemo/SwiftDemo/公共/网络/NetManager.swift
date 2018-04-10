@@ -48,7 +48,6 @@ class NetworkTool {
             case .success:
                 if let value = response.result.value {
                     let json = JSON(value)
-//                    print(json)
                     if json[NetConfi.statusKey].stringValue == NetConfi.successValue{
                         finished(true, json, "")
                     }else{
