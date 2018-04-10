@@ -48,6 +48,9 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
         flowLayout.minimumLineSpacing = 0;
         
         naviTopView = HomeNaviCollectionView.init(frame: CGRect.init(x: 40, y: STATUSBAR_HEIGHT, width: SCREEN_WIDTH - 80.0, height: 40), collectionViewLayout: flowLayout)
+        naviTopView.postValueBlock = { (index) in
+            self.vcContentView.setContentOffset(CGPoint.init(x: CGFloat(index) * SCREEN_WIDTH, y: 0), animated: true)
+        }
         self.navigationItem.titleView = naviTopView
         
         self.view.addSubview(vcContentView)
@@ -58,18 +61,9 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
             make.edges.equalTo(self.view).inset(UIEdgeInsets.init(top: NAVIGATIONBAR_HEIGHT, left: 0, bottom: TABBAR_HEIGHT, right: 0))
         }
         
-        //尝试用KVO做联动
-        naviTopView.addObserver(self, forKeyPath: "currentIndex", options: .new, context: nil)
-        
         getNetData()
     }
-    
-    //MARK:- KVO
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        let index = change![.newKey] as! CGFloat
-        vcContentView.setContentOffset(CGPoint.init(x: index * SCREEN_WIDTH, y: 0), animated: true)
-    }
-    
+
     //MARK:- network
     private func getNetData()  {
         let urlStr = "https://baobab.kaiyanapp.com/api/v5/index/tab/list"
@@ -84,6 +78,7 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let offSetX = scrollView.contentOffset.x
         let index = Int(offSetX / SCREEN_WIDTH)
+        print("look \(index)")
         naviTopView.currentIndex = index
         
     }

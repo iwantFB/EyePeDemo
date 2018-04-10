@@ -38,7 +38,11 @@ class HomeNaciCollectionCell : UICollectionViewCell {
     }
 }
 
+typealias closureBlock = (Int) -> Void
+
 class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UICollectionViewDataSource {
+    //传值闭包
+    var postValueBlock:closureBlock?
     
     var currentIndex = 1 {
         didSet{
@@ -47,6 +51,7 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
             }
             self .scrollToItem(at: IndexPath.init(row: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
             moveIndexView(item: currentIndex, collection: self, animation: true)
+            self.reloadData()
         }
     }
     
@@ -89,8 +94,6 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeNaciCollectionCell", for: indexPath) as! HomeNaciCollectionCell
         
-        print(itemList[indexPath.item] )
-        
         let dic:Dictionary<String,Any> = itemList[indexPath.item] as! Dictionary<String,Any>
         
         cell.titleLb.text = (dic[name] as! String)
@@ -103,8 +106,9 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
         self.currentIndex = indexPath.item
-        moveIndexView(item: currentIndex, collection: collectionView, animation: true)
-        collectionView.reloadData()
+        if postValueBlock != nil{
+            postValueBlock!(indexPath.item)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
