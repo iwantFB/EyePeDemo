@@ -45,8 +45,10 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
             guard currentIndex >= 0 else {
                 return
             }
-            self .scrollToItem(at: IndexPath.init(row: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
+            print("\(currentIndex)")
+            self.scrollToItem(at: IndexPath.init(row: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
             moveIndexView(item: currentIndex, collection: self, animation: true)
+            self.reloadData()
         }
     }
     
@@ -103,8 +105,6 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
         self.currentIndex = indexPath.item
-        moveIndexView(item: currentIndex, collection: collectionView, animation: true)
-        collectionView.reloadData()
     }
     
     required init?(coder aDecoder: NSCoder) {
