@@ -14,12 +14,19 @@ fileprivate let header_title = "title"
 fileprivate let header_subTitle = "subTitle"
 fileprivate let itemList = "itemList"
 
-class SquareCardCollectionCell : UITableViewCell,FSPagerViewDataSource,FSPagerViewDelegate  {
-
-    var dataDic = Dictionary<String,Dictionary<String,Any>>(){
+class SquareCardCollectionCell : HomeBaseCell,FSPagerViewDataSource,FSPagerViewDelegate  {
+    
+    override var itemModel: HomeItemModel?{
         didSet{
-//            headerSubTitlelb.text = 
-            headerTitlelb.text = "开眼今日编辑精选"
+            headerTitlelb.text = itemModel?.data?.header?.title
+            headerSubTitlelb.text = itemModel?.data?.header?.subTitle
+            self.itemList = itemModel?.data?.itemList
+        }
+    }
+    
+    var itemList:Array<HomeItemModel>?{
+        didSet{
+            pagerView.reloadData()
         }
     }
     
@@ -63,15 +70,21 @@ class SquareCardCollectionCell : UITableViewCell,FSPagerViewDataSource,FSPagerVi
     }
     
     public func numberOfItems(in pagerView: FSPagerView) -> Int {
-        return 5
+        guard (itemList?.count)! > 0 else {
+            return 0
+        }
+        return (itemList?.count)!
     }
     
     public func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let cell:SquareCardCollectionViewCell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index) as! SquareCardCollectionViewCell
         
-        cell.videoImageView.image = UIImage.init(named: "beauty")
-        cell.headerTitleLb.text = "wow"
-        cell.headerDescriptionLb.text = "cool man"
+        let subItemModel = itemList![index]
+        let imageURLStr = (subItemModel.data?.content?.data.cover.feed)!
+        cell.videoImageView.sd_setImage(with: URL.init(string: ), completed: nil)
+        cell.headerTitleLb.text = subItemModel.data?.header?.title
+        cell.headerDescriptionLb.text = subItemModel.data?.header?.subTitle
+        print("image = \((subItemModel.data?.content?.data.cover.feed)!)")
         return cell
     }
     

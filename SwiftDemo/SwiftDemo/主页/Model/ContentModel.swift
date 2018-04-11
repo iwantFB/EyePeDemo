@@ -16,6 +16,42 @@ class ContentModel:HandyJSON {
     required init(){}
 }
 
+//tags
+class ContentTagsModel:HandyJSON {
+    var id:String!
+    var name:String!
+    var actionUrl:String?
+    var desc:String?
+    var bgPicture:String!
+    var headerImage:String?
+    //NORMAL
+    var tagRecType:String!
+    
+    required init(){}
+}
+
+
+/// 评价分享数量
+class ContentConsumptionModel:HandyJSON
+{
+    var collectionCount:Int!
+    var shareCount:Int!
+    var replyCount:Int!
+    
+    required init(){}
+}
+
+
+/// provider
+class ContentProviderModel:HandyJSON{
+    
+    var name:String!
+    var alias:String!
+    var icon:String!
+    required init(){}
+}
+
+
 class ContentDataModel: HandyJSON {
     
     var dataType:String?
@@ -51,6 +87,11 @@ class ContentDataModel: HandyJSON {
     var lastViewTime:Double?
     var playlists:String?
     var src:String?
+    
+    var tags:Array<ContentTagsModel>?
+    var author:AuthorModel?
+    var cover:CoverModel!
+    var playInfo :Array<PlayInfoModel>!
 
     required init(){}
 }

@@ -38,6 +38,9 @@ class HomeItemDataModel: HandyJSON {
     var itemList:Array<HomeItemModel>?
     var content:ContentModel?
     var count:Int?
+    var text:String?
+    var actionUrl:String?
+    
     
     required init(){}
 }

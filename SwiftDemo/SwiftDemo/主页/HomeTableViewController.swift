@@ -30,7 +30,7 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     
     func p_setupUI()  {
         self.view.addSubview(tableView)
-        tableView.register(SquareCardCollectionCell.self, forCellReuseIdentifier: "squareCardCollectionCell")
+        tableView.register(SquareCardCollectionCell.self, forCellReuseIdentifier: "squareCardCollection")
         tableView.register(TextCardCell.self, forCellReuseIdentifier: "textCard")
         tableView.delegate = self
         tableView.dataSource = self
@@ -42,6 +42,9 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     
     //MARK - delegate,datasource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if totalCount > 0{
+         return 2;
+        }
         return totalCount;
     }
     
@@ -51,16 +54,10 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell:UITableViewCell
-        
         let row = indexPath.row
-        if row % 2 == 0 {
-            cell = tableView.dequeueReusableCell(withIdentifier: "squareCardCollectionCell", for: indexPath)
-        }else{
-            cell = tableView.dequeueReusableCell(withIdentifier: "textCard", for: indexPath)
-            (cell as! TextCardCell).titleLb.text = "猜你喜欢"
-        }
-        cell.selectionStyle = .none
+        let itemModel = self.itemList[row] as! HomeItemModel
+        let cell = HomeBaseCell.cellForTable(tableView: tableView, identifier: itemModel.type, indexPath: indexPath)
+        cell.itemModel = itemModel
         return cell
     }
     
@@ -73,7 +70,7 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
             let result = [HomeItemModel].deserialize(from: json.rawString(), designatedPath:".itemList")
             
             self.totalCount += result!.count
-            self.itemList.addObjects(from: result!)
+            self.itemList.addObjects(from: result! as! [HomeItemModel])
             self.tableView.reloadData()
         }
     }

@@ -8,8 +8,14 @@
 
 import UIKit
 
-class TextCardCell : UITableViewCell {
+class TextCardCell : HomeBaseCell {
 
+    override var itemModel: HomeItemModel?{
+        didSet{
+            titleLb.text = itemModel?.data?.text!
+        }
+    }
+    
     let titleLb = UILabel.init();
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
