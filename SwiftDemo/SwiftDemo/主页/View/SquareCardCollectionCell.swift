@@ -81,10 +81,14 @@ class SquareCardCollectionCell : HomeBaseCell,FSPagerViewDataSource,FSPagerViewD
         
         let subItemModel = itemList![index]
         let imageURLStr = (subItemModel.data?.content?.data.cover.feed)!
-        cell.videoImageView.sd_setImage(with: URL.init(string: ), completed: nil)
+        let iconURLStr = (subItemModel.data?.header?.icon)!
+        cell.videoImageView.sd_setImage(with: URL.init(string: imageURLStr), completed: nil)
+        cell.iconImageView.sd_setImage(with: URL.init(string: iconURLStr), completed: nil)
+//        cell.iconImageView.sd_setImage(with: URL.init(string: iconURLStr)) { (image, error, cahecTypr, url) in
+//        应该添加标识并切圆角
+//        }
         cell.headerTitleLb.text = subItemModel.data?.header?.title
-        cell.headerDescriptionLb.text = subItemModel.data?.header?.subTitle
-        print("image = \((subItemModel.data?.content?.data.cover.feed)!)")
+        cell.headerDescriptionLb.text = subItemModel.data?.header?.description
         return cell
     }
     

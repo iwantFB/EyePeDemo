@@ -11,8 +11,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
+        <array key="PingFang.ttc">
+            <string>PingFangSC-Medium</string>
+            <string>PingFangSC-Regular</string>
         </array>
     </customFonts>
     <objects>
@@ -24,6 +25,12 @@
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eM2-9v-qOD">
                     <rect key="frame" x="0.0" y="0.0" width="502" height="320"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="2"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZCd-Iq-GxC">
                     <rect key="frame" x="0.0" y="320" width="502" height="80"/>
@@ -34,10 +41,16 @@
                                 <constraint firstAttribute="width" secondItem="Iok-ma-fdi" secondAttribute="height" id="QYU-C9-JzV"/>
                                 <constraint firstAttribute="height" constant="50" id="shx-Y9-7nd"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="25"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                            </userDefinedRuntimeAttributes>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lI5-oE-YkB">
-                            <rect key="frame" x="55" y="36" width="367" height="20"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                            <rect key="frame" x="55" y="36" width="367" height="18.5"/>
+                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="13"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -53,7 +66,7 @@
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xRN-l3-9TT">
                             <rect key="frame" x="55" y="10" width="367" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="15"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -90,9 +103,10 @@
             <connections>
                 <outlet property="headerDescriptionLb" destination="lI5-oE-YkB" id="XSq-cl-6P6"/>
                 <outlet property="headerTitleLb" destination="xRN-l3-9TT" id="h6A-YF-T4g"/>
+                <outlet property="iconImageView" destination="Iok-ma-fdi" id="UST-Y3-fj0"/>
                 <outlet property="videoImageView" destination="eM2-9v-qOD" id="gl9-K8-4A4"/>
             </connections>
-            <point key="canvasLocation" x="-5" y="-44"/>
+            <point key="canvasLocation" x="-97" y="-41"/>
         </view>
     </objects>
 </document>

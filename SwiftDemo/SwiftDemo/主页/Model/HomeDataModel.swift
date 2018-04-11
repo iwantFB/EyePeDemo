@@ -21,7 +21,7 @@ class HomeDataHeaderModel : HandyJSON{
     var cover:String?
     var label:String?
     var actionUrl:String?
-    var icon:URL?
+    var icon:String?
     var iconType:String?
     var description:String?
     var showHateVideo:Bool?
