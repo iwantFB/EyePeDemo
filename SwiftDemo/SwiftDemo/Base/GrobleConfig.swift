@@ -19,7 +19,11 @@ let STATUSBAR_HEIGHT : CGFloat = isIphoneX ? 44 : 20
 
 let TABBAR_HEIGHT : CGFloat = isIphoneX ? 49 + 34 : 49
 
-let headerHeight:CGFloat = 60
+let HomeCellImageView_Height:CGFloat = 180
+
+func themeFont(fontSize:Float)-> UIFont{
+    return UIFont.systemFont(ofSize: 14)
+}
 
 //module导入
 import SDWebImage

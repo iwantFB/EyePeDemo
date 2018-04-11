@@ -14,11 +14,7 @@ class HomeBaseCell: UITableViewCell {
     
     static func cellForTable(tableView:UITableView, identifier:String, indexPath:IndexPath) -> HomeBaseCell{
     
-        var id = identifier
-        if identifier != "squareCardCollection" || identifier != "banner"{
-            id = "textCard"
-        }
-        let cell:HomeBaseCell = tableView.dequeueReusableCell(withIdentifier: id, for: indexPath) as! HomeBaseCell
+        let cell:HomeBaseCell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! HomeBaseCell
         cell.selectionStyle = .none
         return cell
     }

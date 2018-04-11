@@ -12,6 +12,9 @@ class TextCardCell : HomeBaseCell {
 
     override var itemModel: HomeItemModel?{
         didSet{
+            guard itemModel?.type == "textCard" else {
+                return
+            }
             titleLb.text = itemModel?.data?.text!
         }
     }
