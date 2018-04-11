@@ -22,7 +22,7 @@ class FollowCardCell: HomeBaseCell {
                 return
             }
             
-            let videoImageStr = itemModel?.data?.content?.data.cover.feed
+            let videoImageStr = itemModel?.data?.content?.data.cover?.feed
             let iconImageStr = itemModel?.data?.header?.icon!
             let titleStr = itemModel?.data?.content?.data.title
             let descriptionStr = (itemModel?.data?.header?.title)! + " / " + (itemModel?.data?.header?.description)!

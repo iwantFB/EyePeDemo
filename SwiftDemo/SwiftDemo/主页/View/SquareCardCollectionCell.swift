@@ -80,7 +80,7 @@ class SquareCardCollectionCell : HomeBaseCell,FSPagerViewDataSource,FSPagerViewD
         let cell:SquareCardCollectionViewCell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index) as! SquareCardCollectionViewCell
         
         let subItemModel = itemList![index]
-        let imageURLStr = (subItemModel.data?.content?.data.cover.feed)!
+        let imageURLStr = (subItemModel.data?.content?.data.cover?.feed)!
         let iconURLStr = (subItemModel.data?.header?.icon)!
         cell.videoImageView.sd_setImage(with: URL.init(string: imageURLStr), completed: nil)
         cell.iconImageView.sd_setImage(with: URL.init(string: iconURLStr), completed: nil)

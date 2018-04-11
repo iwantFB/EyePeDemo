@@ -52,12 +52,9 @@ class ContentProviderModel:HandyJSON{
 }
 
 
-class ContentDataModel: HandyJSON {
+class ContentDataModel: HomeDataHeaderModel {
     
     var dataType:String?
-    var id:String?
-    var title:String?
-    var description:String?
     var library:String?
     var resourceType:String?
     var slogan:String?
@@ -80,7 +77,6 @@ class ContentDataModel: HandyJSON {
     var webAdTrack:String?
     var date:Double?
     var promotion:String?
-    var label:String?
     var descriptionEditor:String?
     var collected:String?
     var played:String?
@@ -88,10 +84,10 @@ class ContentDataModel: HandyJSON {
     var playlists:String?
     var src:String?
     
+    var cover: CoverModel?
     var tags:Array<ContentTagsModel>?
     var author:AuthorModel?
-    var cover:CoverModel!
-    var playInfo :Array<PlayInfoModel>!
+    var playInfo :Array<PlayInfoModel>?
 
     required init(){}
 }

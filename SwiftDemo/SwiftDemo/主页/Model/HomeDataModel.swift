@@ -18,7 +18,6 @@ class HomeDataHeaderModel : HandyJSON{
     var subTitle:String!
     var subTitleFont:String!
     var textAlign:String!
-    var cover:String?
     var label:String?
     var actionUrl:String?
     var icon:String?
@@ -31,21 +30,15 @@ class HomeDataHeaderModel : HandyJSON{
 }
 
 
-class HomeItemDataModel: HandyJSON {
+class HomeItemDataModel: ContentDataModel {
     
-    var dataType:String!
     var header:HomeDataHeaderModel?
     var itemList:Array<HomeItemModel>?
     var content:ContentModel?
     var count:Int?
     var text:String?
-    var actionUrl:String?
     
-    //banner
-    var id:Int!
-    var title:String!
-    var description:String?
-    var image:String!
+    var image:String?
     var shade:Bool?
     
     required init(){}

@@ -34,6 +34,8 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
         tableView.register(TextCardCell.self, forCellReuseIdentifier: "textCard")
         tableView.register(HomeBannerCell.self, forCellReuseIdentifier: "banner")
         tableView.register(HorizontalScrollCardCell.self, forCellReuseIdentifier: "horizontalScrollCard")
+        tableView.register(VideoSmallCardCell.self, forCellReuseIdentifier: "videoSmallCard")
+        tableView.register(BriefCardCell.self, forCellReuseIdentifier: "briefCard")
         tableView.register(FollowCardCell.self, forCellReuseIdentifier: "followCard")
         tableView.delegate = self
         tableView.dataSource = self
@@ -45,9 +47,7 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     
     //MARK - delegate,datasource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if totalCount > 0{
-         return 4;
-        }
+
         return totalCount;
     }
     

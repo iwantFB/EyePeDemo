@@ -30,7 +30,6 @@ class HorizontalScrollCardCell : HomeBaseCell {
         self.contentView.addSubview(bannerImageView)
         bannerImageView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.contentView).inset(UIEdgeInsets.init(top: 15, left: 15, bottom: 15, right: 15))
-            
             make.height.equalTo(HomeCellImageView_Height)
         }
     }
