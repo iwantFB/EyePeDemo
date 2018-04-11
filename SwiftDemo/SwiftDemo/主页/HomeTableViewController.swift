@@ -32,6 +32,7 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
         self.view.addSubview(tableView)
         tableView.register(SquareCardCollectionCell.self, forCellReuseIdentifier: "squareCardCollection")
         tableView.register(TextCardCell.self, forCellReuseIdentifier: "textCard")
+        tableView.register(HomeBannerCell.self, forCellReuseIdentifier: "banner")
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -43,7 +44,7 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     //MARK - delegate,datasource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if totalCount > 0{
-         return 2;
+         return 3;
         }
         return totalCount;
     }

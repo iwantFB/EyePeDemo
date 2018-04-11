@@ -41,6 +41,12 @@ class HomeItemDataModel: HandyJSON {
     var text:String?
     var actionUrl:String?
     
+    //banner
+    var id:Int!
+    var title:String!
+    var description:String?
+    var image:String!
+    var shade:Bool?
     
     required init(){}
 }
