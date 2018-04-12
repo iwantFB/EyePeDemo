@@ -32,6 +32,12 @@ class BriefCardCell: HomeBaseCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.accessoryType = .disclosureIndicator
+        iconImageView.contentMode = .scaleAspectFill
+        
+        titleLb.font = themeFont(fontSize: 12)
+        descriptionLb.font = themeFont(fontSize: 10)
+        iconImageView.clipsToBounds = true
+        
         
         self.contentView.addSubview(iconImageView)
         self.contentView.addSubview(titleLb)
@@ -39,7 +45,7 @@ class BriefCardCell: HomeBaseCell {
         
         iconImageView.snp.makeConstraints { (make) in
             make.width.height.equalTo(HomeCellIcon_Height)
-            make.topMargin.leftMargin.equalToSuperview().offset(15)
+            make.topMargin.left.equalToSuperview().offset(15)
             make.bottomMargin.equalToSuperview().offset(-15)
         }
         

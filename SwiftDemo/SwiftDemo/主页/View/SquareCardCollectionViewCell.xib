@@ -39,7 +39,7 @@
                             <rect key="frame" x="0.0" y="10" width="50" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="Iok-ma-fdi" secondAttribute="height" id="QYU-C9-JzV"/>
-                                <constraint firstAttribute="height" constant="50" id="shx-Y9-7nd"/>
+                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="50" id="gr0-Ms-rZZ"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -73,7 +73,8 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="Iok-ma-fdi" firstAttribute="top" secondItem="ZCd-Iq-GxC" secondAttribute="top" constant="10" id="5Ha-HO-2Hb"/>
+                        <constraint firstAttribute="height" constant="80" id="2Dq-hE-LsP"/>
+                        <constraint firstItem="Iok-ma-fdi" firstAttribute="top" secondItem="ZCd-Iq-GxC" secondAttribute="top" priority="750" constant="10" id="5Ha-HO-2Hb"/>
                         <constraint firstItem="xRN-l3-9TT" firstAttribute="leading" secondItem="Iok-ma-fdi" secondAttribute="trailing" constant="5" id="8V3-y7-DuF"/>
                         <constraint firstItem="7PE-8d-joM" firstAttribute="top" secondItem="ZCd-Iq-GxC" secondAttribute="top" id="MoL-vX-HCe"/>
                         <constraint firstItem="7PE-8d-joM" firstAttribute="leading" secondItem="lI5-oE-YkB" secondAttribute="trailing" id="N4x-DG-SjV"/>
@@ -104,9 +105,11 @@
                 <outlet property="headerDescriptionLb" destination="lI5-oE-YkB" id="XSq-cl-6P6"/>
                 <outlet property="headerTitleLb" destination="xRN-l3-9TT" id="h6A-YF-T4g"/>
                 <outlet property="iconImageView" destination="Iok-ma-fdi" id="UST-Y3-fj0"/>
+                <outlet property="infoContentView" destination="ZCd-Iq-GxC" id="vFE-73-x1U"/>
+                <outlet property="infoContentViewConstraintHeight" destination="2Dq-hE-LsP" id="h9O-MD-Ugc"/>
                 <outlet property="videoImageView" destination="eM2-9v-qOD" id="gl9-K8-4A4"/>
             </connections>
-            <point key="canvasLocation" x="-97" y="-41"/>
+            <point key="canvasLocation" x="-146" y="-171"/>
         </view>
     </objects>
 </document>
