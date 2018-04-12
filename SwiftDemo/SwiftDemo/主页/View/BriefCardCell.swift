@@ -42,8 +42,8 @@ class BriefCardCell: HomeBaseCell {
         
         iconImageView.snp.makeConstraints { (make) in
             make.width.height.equalTo(HomeCellIcon_Height)
-            make.topMargin.left.equalToSuperview().offset(15)
-            make.bottomMargin.equalToSuperview().offset(-15)
+            make.top.left.equalToSuperview().offset(15)
+            make.bottom.equalToSuperview().offset(-15)
         }
         
         titleLb.snp.makeConstraints { (make) in
