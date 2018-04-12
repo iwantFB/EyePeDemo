@@ -15,6 +15,9 @@ class HomeBaseCell: UITableViewCell {
     static func cellForTable(tableView:UITableView, identifier:String, indexPath:IndexPath) -> HomeBaseCell{
     
         let cell:HomeBaseCell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! HomeBaseCell
+        if cell == nil {
+            return HomeBaseCell.init()
+        }
         cell.selectionStyle = .none
         return cell
     }

@@ -20,6 +20,7 @@ let STATUSBAR_HEIGHT : CGFloat = isIphoneX ? 44 : 20
 let TABBAR_HEIGHT : CGFloat = isIphoneX ? 49 + 34 : 49
 
 let HomeCellImageView_Height:CGFloat = 180
+let HomeCellIcon_Height = 40.0
 
 func themeFont(fontSize:Float)-> UIFont{
     return UIFont.systemFont(ofSize: 14)

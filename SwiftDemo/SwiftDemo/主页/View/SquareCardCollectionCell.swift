@@ -1,4 +1,4 @@
-//
+ //
 //  squareCardCollectionCell.swift
 //  SwiftDemo
 //
@@ -18,6 +18,9 @@ class SquareCardCollectionCell : HomeBaseCell,FSPagerViewDataSource,FSPagerViewD
     
     override var itemModel: HomeItemModel?{
         didSet{
+            if itemModel?.data?.dataType == "banner2"{
+                
+            }
             headerTitlelb.text = itemModel?.data?.header?.title
             headerSubTitlelb.text = itemModel?.data?.header?.subTitle
             self.itemList = itemModel?.data?.itemList
@@ -80,13 +83,14 @@ class SquareCardCollectionCell : HomeBaseCell,FSPagerViewDataSource,FSPagerViewD
         let cell:SquareCardCollectionViewCell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index) as! SquareCardCollectionViewCell
         
         let subItemModel = itemList![index]
-        let imageURLStr = (subItemModel.data?.content?.data.cover?.feed)!
+        let imageURLStr = subItemModel.type == "banner2" ? subItemModel.data?.image : (subItemModel.data?.content?.data.cover?.feed)!
+        cell.videoImageView.sd_setImage(with: URL.init(string: imageURLStr!), completed: nil)
+
+        guard subItemModel.type != "banner2" else {
+            return cell
+        }
         let iconURLStr = (subItemModel.data?.header?.icon)!
-        cell.videoImageView.sd_setImage(with: URL.init(string: imageURLStr), completed: nil)
         cell.iconImageView.sd_setImage(with: URL.init(string: iconURLStr), completed: nil)
-//        cell.iconImageView.sd_setImage(with: URL.init(string: iconURLStr)) { (image, error, cahecTypr, url) in
-//        应该添加标识并切圆角
-//        }
         cell.headerTitleLb.text = subItemModel.data?.header?.title
         cell.headerDescriptionLb.text = subItemModel.data?.header?.description
         return cell

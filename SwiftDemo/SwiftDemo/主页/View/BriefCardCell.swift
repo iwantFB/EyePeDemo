@@ -38,7 +38,7 @@ class BriefCardCell: HomeBaseCell {
         self.contentView.addSubview(descriptionLb)
         
         iconImageView.snp.makeConstraints { (make) in
-            make.width.height.equalTo(60)
+            make.width.height.equalTo(HomeCellIcon_Height)
             make.topMargin.leftMargin.equalToSuperview().offset(15)
             make.bottomMargin.equalToSuperview().offset(-15)
         }
@@ -49,7 +49,7 @@ class BriefCardCell: HomeBaseCell {
         }
         
         descriptionLb.snp.makeConstraints { (make) in
-            make.bottom.equalTo(iconImageView).offset(-5)
+            make.top.equalTo(titleLb.snp.bottom).offset(10)
             make.leading.equalTo(titleLb)
         }
     }
