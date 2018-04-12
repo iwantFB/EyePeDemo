@@ -22,7 +22,7 @@ class BriefCardCell: HomeBaseCell {
             let titleStr = itemModel?.data?.title
             let descriptionStr = itemModel?.data?.description
             
-            imageView?.sd_setImage(with: URL.init(string: iconStr!), completed: nil)
+            iconImageView.sd_setImage(with: URL.init(string: iconStr!), completed: nil)
             titleLb.text = titleStr
             descriptionLb.text = descriptionStr
         }
