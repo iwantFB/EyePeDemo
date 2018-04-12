@@ -12,6 +12,7 @@ import FSPagerView
 class SquareCardCollectionViewCell : FSPagerViewCell {
  
     
+    @IBOutlet weak var iconImageViewConstraintHeight: NSLayoutConstraint!
     @IBOutlet weak var infoContentView: UIView!
     @IBOutlet weak var infoContentViewConstraintHeight: NSLayoutConstraint!
     @IBOutlet weak var iconImageView: UIImageView!

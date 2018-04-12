@@ -57,7 +57,7 @@ class SquareCardCollectionCell : HomeBaseCell,FSPagerViewDataSource,FSPagerViewD
             make.leading.equalTo(headerSubTitlelb)
         }
         
-        let cellHeight:Float = 300.0
+        let cellHeight:Float = 260.0
         pagerView.dataSource = self
         pagerView.delegate = self
         pagerView.itemSize = CGSize.init(width: SCREEN_WIDTH - 30, height: CGFloat(cellHeight))
