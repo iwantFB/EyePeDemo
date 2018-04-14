@@ -24,10 +24,11 @@ class VideoSmallCardCell: HomeBaseCell {
             
             let imageStr = itemModel?.data?.cover?.feed
             let titleStr = itemModel?.data?.title
-//            let subTitleStr = itemModel?.data.
+            let subTitleStr = "#" + (itemModel?.data?.category)! + (itemModel?.data?.author?.name)!
             
             videoImageView.sd_setImage(with: URL.init(string: imageStr!), completed: nil)
             titleLb.text = titleStr
+            subTitleLb.text = subTitleStr
             
         }
     }
@@ -40,7 +41,7 @@ class VideoSmallCardCell: HomeBaseCell {
         
         titleLb.font = themeFont(fontSize: 12)
         titleLb.numberOfLines = 0
-        subTitleLb.font = themeFont(fontSize: 8)
+        subTitleLb.font = themeFont(fontSize: 10)
         
         self.contentView.addSubview(videoImageView)
         self.contentView.addSubview(titleLb)
@@ -59,7 +60,7 @@ class VideoSmallCardCell: HomeBaseCell {
         
         subTitleLb.snp.makeConstraints { (make) in
             make.leading.equalTo(titleLb)
-            make.bottom.equalToSuperview().offset(-15)
+            make.bottom.equalTo(videoImageView.snp.bottom).offset(-15)
         }
         
     }

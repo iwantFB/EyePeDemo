@@ -42,7 +42,7 @@
                             <rect key="frame" x="0.0" y="10" width="50" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="50" id="V6m-re-NYQ"/>
-                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="50" id="gr0-Ms-rZZ"/>
+                                <constraint firstAttribute="height" constant="50" id="gr0-Ms-rZZ"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -87,7 +87,6 @@
                         <constraint firstItem="lI5-oE-YkB" firstAttribute="top" secondItem="xRN-l3-9TT" secondAttribute="bottom" constant="5" id="dmI-Uz-O2f"/>
                         <constraint firstItem="7PE-8d-joM" firstAttribute="leading" secondItem="xRN-l3-9TT" secondAttribute="trailing" id="fJV-xP-cXw"/>
                         <constraint firstItem="xRN-l3-9TT" firstAttribute="top" secondItem="Iok-ma-fdi" secondAttribute="top" id="p6V-D0-GzG"/>
-                        <constraint firstAttribute="bottom" secondItem="Iok-ma-fdi" secondAttribute="bottom" constant="20" id="sZC-Nc-bm0"/>
                         <constraint firstAttribute="bottom" secondItem="7PE-8d-joM" secondAttribute="bottom" id="v7s-8u-TGT"/>
                     </constraints>
                 </view>

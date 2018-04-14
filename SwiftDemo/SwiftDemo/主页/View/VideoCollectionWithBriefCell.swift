@@ -53,7 +53,7 @@ class VideoCollectionWithBriefCell : HomeBaseCell ,FSPagerViewDataSource,FSPager
         focusBtn.setTitle("已关注", for: .selected)
         focusBtn.addTarget(self, action: #selector(focusBtnAction(sender:)), for: .touchUpInside)
         
-        headerTitlelb.font = themeFont(fontSize: 12)
+        headerTitlelb.font = themeFont(fontSize: 14)
         headerSubTitlelb.font = themeFont(fontSize: 10)
         
         let cellHeight:Float = 260.0
@@ -95,7 +95,7 @@ class VideoCollectionWithBriefCell : HomeBaseCell ,FSPagerViewDataSource,FSPager
         
         pagerView.snp.makeConstraints { (make) in
             make.top.equalTo(iconImageView.snp.bottom).offset(10)
-            make.left.right.bottom.equalTo(self)
+            make.leftMargin.rightMargin.equalToSuperview()
             make.height.equalTo(cellHeight)
             make.bottomMargin.equalToSuperview().offset(-15)
         }

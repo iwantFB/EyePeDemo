@@ -19,7 +19,6 @@ class SquareCardCollectionCell : HomeBaseCell,FSPagerViewDataSource,FSPagerViewD
     override var itemModel: HomeItemModel?{
         didSet{
             if itemModel?.data?.dataType == "banner2"{
-                
             }
             headerTitlelb.text = itemModel?.data?.header?.title
             headerSubTitlelb.text = itemModel?.data?.header?.subTitle
@@ -29,6 +28,14 @@ class SquareCardCollectionCell : HomeBaseCell,FSPagerViewDataSource,FSPagerViewD
     
     var itemList:Array<HomeItemModel>?{
         didSet{
+            let subItemType = itemList?.first?.type
+            let cellHeight:Float =  subItemType == "banner2" ? 180.0 : 260.0
+            pagerView.itemSize = CGSize.init(width: SCREEN_WIDTH - 30, height: CGFloat(cellHeight))
+            pagerView.snp.makeConstraints { (make) in
+                make.top.equalTo(headerTitlelb.snp.bottom).offset(10)
+                make.left.right.bottom.equalTo(self)
+                make.height.equalTo(cellHeight)
+            }
             pagerView.reloadData()
         }
     }
@@ -57,18 +64,11 @@ class SquareCardCollectionCell : HomeBaseCell,FSPagerViewDataSource,FSPagerViewD
             make.leading.equalTo(headerSubTitlelb)
         }
         
-        let cellHeight:Float = 260.0
         pagerView.dataSource = self
         pagerView.delegate = self
-        pagerView.itemSize = CGSize.init(width: SCREEN_WIDTH - 30, height: CGFloat(cellHeight))
         pagerView.interitemSpacing = 10
         pagerView.register(UINib.init(nibName: "SquareCardCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
         self.addSubview(pagerView)
-        pagerView.snp.makeConstraints { (make) in
-            make.top.equalTo(headerTitlelb.snp.bottom).offset(10)
-            make.left.right.bottom.equalTo(self)
-            make.height.equalTo(cellHeight)
-        }
         
     }
     

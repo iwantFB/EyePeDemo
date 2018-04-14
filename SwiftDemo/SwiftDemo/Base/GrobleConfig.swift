@@ -40,8 +40,8 @@ func RGBColorFromHex(rgbValue: Int) -> (UIColor) {
 
 extension Date {
     static func timeStrWithSecond(second:Int) -> String{
-        
-        let date = Date.init(timeIntervalSince1970: TimeInterval(second))
+        let time = TimeInterval(second / 1000);//13位时间戳—> 10位
+        let date = Date.init(timeIntervalSinceNow: time)
         let dateFormatter = DateFormatter.init()
         dateFormatter.dateFormat = "YYYY/MM/DD"
         return dateFormatter.string(from: date)

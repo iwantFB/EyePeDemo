@@ -41,7 +41,8 @@ class DynamicInfoCardCell : HomeBaseCell {
             
             nikeNameLb.text = itemModel?.data?.user?.nickname
             descriptionLb.text = itemModel?.data?.text
-            hotBtn.isHidden = (itemModel?.data?.reply?.ifHotReply)!
+//            hotBtn.isHidden = (itemModel?.data?.reply?.ifHotReply)!
+                        hotBtn.isHidden = false
             remarkLb.text = itemModel?.data?.reply?.message
             videoTitleLb.text = itemModel?.data?.simpleVideo?.title
             categoryLb.text = String.init(format: "#%@", (itemModel?.data?.simpleVideo?.category)!)
@@ -65,13 +66,14 @@ class DynamicInfoCardCell : HomeBaseCell {
         hotBtn .setTitle("热评", for: .normal)
         hotBtn.setTitleColor(UIColor.blue, for: .normal)
         hotBtn.contentEdgeInsets = UIEdgeInsets.init(top: 5, left: 10, bottom: 5, right: 10)
+        hotBtn.titleLabel?.font = themeFont(fontSize: 8)
         hotBtn.isUserInteractionEnabled = false
         hotBtn.layer.cornerRadius = 2
         hotBtn.layer.borderColor = UIColor.blue.cgColor
         hotBtn.layer.borderWidth = 1
         hotBtn.layer.masksToBounds = true
         
-        remarkLb.font = themeFont(fontSize: 10)
+        remarkLb.font = themeFont(fontSize: 12)
         remarkLb.numberOfLines = 0;
         
         simpleVideoContentView.backgroundColor = RGBColorFromHex(rgbValue: 0xf5f5f5)
@@ -82,15 +84,17 @@ class DynamicInfoCardCell : HomeBaseCell {
         videoImageView.layer.masksToBounds = true
         
         videoTitleLb.numberOfLines = 2;
+        videoTitleLb.font = themeBoldFont(fontSize: 12)
+        categoryLb.font = themeFont(fontSize: 10)
         
         replyBtn.setTitle("回复", for: .normal)
-        replyBtn.titleLabel?.font = themeBoldFont(fontSize: 8)
+        replyBtn.titleLabel?.font = themeBoldFont(fontSize: 10)
         replyBtn.setTitleColor(UIColor.darkGray, for: .normal)
         
-        replyTimeLb.font = themeFont(fontSize: 8)
+        replyTimeLb.font = themeFont(fontSize: 10)
         replyTimeLb.textColor = UIColor.lightGray
         
-        likeCountLb.font = themeBoldFont(fontSize: 8)
+        likeCountLb.font = themeBoldFont(fontSize: 10)
         
         self.contentView.addSubview(iconImageView)
         self.contentView.addSubview(nikeNameLb)
@@ -114,6 +118,7 @@ class DynamicInfoCardCell : HomeBaseCell {
         nikeNameLb.snp.makeConstraints { (make) in
             make.top.equalTo(iconImageView).offset(5)
             make.left.equalTo(iconImageView.snp.right).offset(15)
+            make.right.equalTo(hotBtn.snp.left).offset(-15)
         }
         
         descriptionLb.snp.makeConstraints { (make) in
@@ -123,10 +128,7 @@ class DynamicInfoCardCell : HomeBaseCell {
         
         hotBtn.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-15)
-            make.centerY.equalTo(iconImageView)
-            make.width.equalTo(60)
-            make.height.equalTo(20)
-        }
+            make.centerY.equalTo(iconImageView)        }
         
         remarkLb.snp.makeConstraints { (make) in
             make.top.equalTo(descriptionLb.snp.bottom).offset(10)
@@ -138,7 +140,7 @@ class DynamicInfoCardCell : HomeBaseCell {
             make.left.equalTo(nikeNameLb)
             make.right.equalTo(-15)
             make.top.equalTo(remarkLb.snp.bottom).offset(10)
-            make.height.equalTo(120)
+            make.height.equalTo(100)
         }
         
         videoImageView.snp.makeConstraints { (make) in
