@@ -23,7 +23,29 @@ let HomeCellImageView_Height:CGFloat = 180
 let HomeCellIcon_Height = 40.0
 
 func themeFont(fontSize:Float)-> UIFont{
-    return UIFont.systemFont(ofSize: 14)
+    return UIFont.systemFont(ofSize: CGFloat(fontSize))
+}
+
+func themeBoldFont(fontSize:Float)-> UIFont{
+    return UIFont.boldSystemFont(ofSize: CGFloat(fontSize))
+}
+
+func RGBColorFromHex(rgbValue: Int) -> (UIColor) {
+    
+    return UIColor(red: ((CGFloat)((rgbValue & 0xFF0000) >> 16)) / 255.0,
+                   green: ((CGFloat)((rgbValue & 0xFF00) >> 8)) / 255.0,
+                   blue: ((CGFloat)(rgbValue & 0xFF)) / 255.0,
+                   alpha: 1.0)
+}
+
+extension Date {
+    static func timeStrWithSecond(second:Int) -> String{
+        
+        let date = Date.init(timeIntervalSince1970: TimeInterval(second))
+        let dateFormatter = DateFormatter.init()
+        dateFormatter.dateFormat = "YYYY/MM/DD"
+        return dateFormatter.string(from: date)
+    }
 }
 
 //module导入

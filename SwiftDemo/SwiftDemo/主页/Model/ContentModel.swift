@@ -62,7 +62,7 @@ class ContentDataModel: HomeDataHeaderModel {
     var playUrl:String?
     var thumbPlayUrl:String?
     var duration:String?
-    var releaseTime:String?
+    var releaseTime:Int?
     var campaign:String?
     var waterMarks:String?
     var adTrack:String?

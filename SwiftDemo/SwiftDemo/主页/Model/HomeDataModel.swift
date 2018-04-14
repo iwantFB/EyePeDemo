@@ -42,6 +42,12 @@ class HomeItemDataModel: ContentDataModel {
     var image:String?
     var shade:Bool?
     
+    var dynamicType:String?
+    var user:UserModel?
+    var createDate:Int?
+    var simpleVideo:ContentDataModel?
+    var reply:ReplyModel?
+    
     required init(){}
 }
 

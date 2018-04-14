@@ -38,6 +38,7 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
         tableView.register(BriefCardCell.self, forCellReuseIdentifier: "briefCard")
         tableView.register(FollowCardCell.self, forCellReuseIdentifier: "followCard")
         tableView.register(VideoCollectionWithBriefCell.self, forCellReuseIdentifier: "videoCollectionWithBrief")
+        tableView.register(DynamicInfoCardCell.self, forCellReuseIdentifier: "DynamicInfoCard")
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
