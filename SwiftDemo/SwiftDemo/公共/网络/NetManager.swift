@@ -18,7 +18,7 @@ enum NetConfi {
     /// 请求状态判断key
     static let statusKey = "result"
     /// 成功状态下所对应的值转化为String的内容
-    static let successValue = "succ"
+    static let successValue = ""
     /// 错误状态下错误内容的key
     static let errorMsgKey = "msg"
     /// 域名  http://192.168.1.103/skg/     http://115.29.196.224/skg/  http://192.168.1.103/skg/skg_getdata.do

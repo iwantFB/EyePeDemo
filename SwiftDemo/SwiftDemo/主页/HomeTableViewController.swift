@@ -13,13 +13,28 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     //请求参数
     var url:String? {
         didSet{
+            guard url != nil else {
+                return
+            }
+            
             getHomeData(url: url!)
         }
     }
     
     private let itemList = NSMutableArray.init()
     private var totalCount = 0;
-    private let cellIDArr : Array = ["horizontalScrollCard","textCard","followCard","videoSmallCard","briefCard","squareCardCollection","videoCollectionWithBrief","DynamicInfoCard"]
+    private let cellIdDic : Dictionary<String,AnyClass> = [
+        "horizontalScrollCard":HorizontalScrollCardCell.self,
+        "textCard":TextCardCell.self,
+        "followCard":FollowCardCell.self,
+        "videoSmallCard":VideoSmallCardCell.self,
+        "briefCard":BriefCardCell.self,
+        "squareCardCollection":SquareCardCollectionCell.self,
+        "videoCollectionWithBrief":VideoCollectionWithBriefCell.self,
+        "DynamicInfoCard":DynamicInfoCardCell.self,
+        "banner":HomeBannerCell.self
+        
+    ]
     private let tableView = UITableView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 300), style: UITableViewStyle.plain)
     
     override func viewDidLoad() {
@@ -28,17 +43,20 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
         p_setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if url != nil {
+            tableView.reloadData()
+        }
+    }
+    
     func p_setupUI()  {
         self.view.addSubview(tableView)
-        tableView.register(SquareCardCollectionCell.self, forCellReuseIdentifier: "squareCardCollection")
-        tableView.register(TextCardCell.self, forCellReuseIdentifier: "textCard")
-        tableView.register(HomeBannerCell.self, forCellReuseIdentifier: "banner")
-        tableView.register(HorizontalScrollCardCell.self, forCellReuseIdentifier: "horizontalScrollCard")
-        tableView.register(VideoSmallCardCell.self, forCellReuseIdentifier: "videoSmallCard")
-        tableView.register(BriefCardCell.self, forCellReuseIdentifier: "briefCard")
-        tableView.register(FollowCardCell.self, forCellReuseIdentifier: "followCard")
-        tableView.register(VideoCollectionWithBriefCell.self, forCellReuseIdentifier: "videoCollectionWithBrief")
-        tableView.register(DynamicInfoCardCell.self, forCellReuseIdentifier: "DynamicInfoCard")
+        for cellReuseIdentifier in cellIdDic.keys {
+            tableView.register(cellIdDic[cellReuseIdentifier], forCellReuseIdentifier: cellReuseIdentifier)
+        }
+
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -70,8 +88,7 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     private func getHomeData(url:String)  {
         NetworkTool.get(url, parameters: nil) { (flag, json, cool) in
             
-//            let data = try? JSONSerialization.data(withJSONObject: json, options: [])
-//            let jsonString = String(data: data!, encoding: String.Encoding.utf8)
+            guard flag else {return}
             let result = [HomeItemModel].deserialize(from: json.rawString(), designatedPath:".itemList")
             
             self.totalCount += result!.count

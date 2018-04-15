@@ -25,7 +25,7 @@ class FollowCardCell: HomeBaseCell {
             let videoImageStr = itemModel?.data?.content?.data.cover?.feed
             let iconImageStr = itemModel?.data?.header?.icon!
             let titleStr = itemModel?.data?.content?.data.title
-            let descriptionStr = (itemModel?.data?.header?.title)! + " / " + (itemModel?.data?.header?.description)!
+            let descriptionStr = (itemModel?.data?.header?.title)!
             videoImageView.sd_setImage(with: URL.init(string: videoImageStr!), completed: nil)
             iconImageView.sd_setImage(with: URL.init(string: iconImageStr!), completed: nil)
             titleLb.text = titleStr
@@ -59,16 +59,16 @@ class FollowCardCell: HomeBaseCell {
         iconImageView.snp.makeConstraints { (make) in
             make.leftMargin.equalTo(self.contentView).offset(15)
             make.bottomMargin.equalToSuperview().offset(-20)
-            make.height.width.equalTo(40)
+            make.height.width.equalTo(HomeCellIcon_Height)
         }
         
         titleLb.snp.makeConstraints { (make) in
             make.left.equalTo(iconImageView.snp.right).offset(10)
-            make.top.equalTo(iconImageView)
+            make.top.equalTo(iconImageView).offset(5)
         }
         
         descriptionLb.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLb.snp.bottom)
+            make.bottom.equalTo(iconImageView).offset(-5)
             make.leading.equalTo(titleLb)
         }
     }

@@ -16,6 +16,7 @@ class  FHNavigationViewController : UINavigationController {
 //        self.navigationBar.isHidden = true
         
 //        p_setupUI()
+        self.navigationBar.isTranslucent = true
     }
     
     private func p_setupUI()  {

@@ -59,7 +59,7 @@ class VideoCollectionWithBriefCell : HomeBaseCell ,FSPagerViewDataSource,FSPager
         let cellHeight:Float = 260.0
         pagerView.dataSource = self
         pagerView.delegate = self
-        pagerView.itemSize = CGSize.init(width: SCREEN_WIDTH - 30, height: CGFloat(cellHeight))
+        pagerView.itemSize = CGSize.init(width: SCREEN_WIDTH - 50, height: CGFloat(cellHeight))
         pagerView.interitemSpacing = 10
         pagerView.register(UINib.init(nibName: "SquareCardCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
         

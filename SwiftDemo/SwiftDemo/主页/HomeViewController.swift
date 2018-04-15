@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import SwiftyJSON
 
 
 private let tabInfo = "tabInfo"
@@ -19,6 +20,7 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
     let vcContentView = UIScrollView.init();
     var itemList = NSMutableArray.init(){
         didSet{
+            
             let count = itemList.count
             let vcHeight = SCREEN_HEIGHT - TABBAR_HEIGHT - NAVIGATIONBAR_HEIGHT
             vcContentView.contentSize = CGSize.init(width: SCREEN_WIDTH * CGFloat(count), height: vcHeight)
@@ -32,6 +34,8 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
             }
             
             self.naviTopView.itemList = itemList as! Array<Any>
+//            self.naviTopView.currentIndex = 1
+            selectedUrl()
         }
     }
 
@@ -44,16 +48,11 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
         
         self.view.backgroundColor = UIColor.white
         
-        let flowLayout = UICollectionViewFlowLayout.init()
-        flowLayout.itemSize = CGSize.init(width: 60, height: 38)
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumLineSpacing = 0;
-        
-        naviTopView = HomeNaviCollectionView.init(frame: CGRect.init(x: 40, y: STATUSBAR_HEIGHT, width: SCREEN_WIDTH - 80.0, height: 40), collectionViewLayout: flowLayout)
+        naviTopView = HomeNaviCollectionView.init(frame: CGRect.init(x: 40, y: STATUSBAR_HEIGHT, width: SCREEN_WIDTH - 80.0, height: 40), collectionViewLayout: UICollectionViewFlowLayout.init())
         naviTopView.postValueBlock = { (index,apiUrl) in
             self.vcContentView.setContentOffset(CGPoint.init(x: CGFloat(index) * SCREEN_WIDTH, y: 0), animated: true)
             
-            self.selectedUrl(url: apiUrl, index: index)
+            self.selectedUrl()
         }
         self.navigationItem.titleView = naviTopView
         
@@ -68,17 +67,43 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
         getNetData()
     }
 
-    func selectedUrl(url:String , index:Int){
+    func selectedUrl(){
+
+        let index = naviTopView.currentIndex
         let tableVC = self.childViewControllers[index] as! HomeTableViewController
-        tableVC.url = url
+        tableVC.url = naviTopView.currentUrl
     }
     
     //MARK:- network
     private func getNetData()  {
         let urlStr = "https://baobab.kaiyanapp.com/api/v5/index/tab/list"
+
         NetworkTool.get(urlStr, parameters: nil) { (flag, json, cool) in
             
-            let result:Dictionary<String,AnyObject> = json.dictionaryObject! as Dictionary<String,AnyObject>
+            var result:Dictionary<String,AnyObject>!
+            let urlRequest = URLRequest.init(url: URL.init(string: urlStr)!)
+            if flag {
+                //缓存
+                let res = URLCache.shared.cachedResponse(for: urlRequest)
+                if res != nil {
+                    print("缓存成功")
+                }
+                result = json.dictionaryObject! as Dictionary<String,AnyObject>
+            }else{
+                let response = URLCache.shared.cachedResponse(for: urlRequest)
+                if response == nil {
+                    print("没有缓存")
+                }else{
+                    do {
+                        try result = JSON.init(data: (response?.data)!).dictionaryObject! as Dictionary<String,AnyObject>
+
+                    }catch _ {
+                        return
+                    }
+                }
+            }
+            
+            
             self.itemList = NSMutableArray.init(array: (result[tabInfo]![tabList])as!Array<Any>)
         }
     }
@@ -89,7 +114,7 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
         let index = Int(offSetX / SCREEN_WIDTH)
         print("滑动 = \(naviTopView.currentUrl)")
         naviTopView.currentIndex = index
-        selectedUrl(url: naviTopView.currentUrl, index: index)
+        selectedUrl()
     }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {

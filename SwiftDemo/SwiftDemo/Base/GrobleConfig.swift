@@ -41,9 +41,15 @@ func RGBColorFromHex(rgbValue: Int) -> (UIColor) {
 extension Date {
     static func timeStrWithSecond(second:Int) -> String{
         let time = TimeInterval(second / 1000);//13位时间戳—> 10位
-        let date = Date.init(timeIntervalSinceNow: time)
+        let currentTime = Date.init().timeIntervalSince1970
+        let date = Date.init(timeIntervalSince1970: time)
         let dateFormatter = DateFormatter.init()
-        dateFormatter.dateFormat = "YYYY/MM/DD"
+        if (currentTime - time) < 24*60*60 {
+            dateFormatter.dateFormat = "HH:mm"
+        }else{
+            dateFormatter.dateFormat = "YYYY/MM/dd"
+        }
+        
         return dateFormatter.string(from: date)
     }
 }

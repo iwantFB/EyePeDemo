@@ -24,7 +24,7 @@ class VideoSmallCardCell: HomeBaseCell {
             
             let imageStr = itemModel?.data?.cover?.feed
             let titleStr = itemModel?.data?.title
-            let subTitleStr = "#" + (itemModel?.data?.category)! + (itemModel?.data?.author?.name)!
+            let subTitleStr = "#" + (itemModel?.data?.category)! + "/" + (itemModel?.data?.author?.name)!
             
             videoImageView.sd_setImage(with: URL.init(string: imageStr!), completed: nil)
             titleLb.text = titleStr

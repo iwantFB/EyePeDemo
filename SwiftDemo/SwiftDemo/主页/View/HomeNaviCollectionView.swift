@@ -56,7 +56,7 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
                 return
             }
             self.scrollToItem(at: IndexPath.init(row: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
-            moveIndexView(item: currentIndex, collection: self, animation: true)
+            moveIndexView(item: currentIndex, animation: true)
             self.reloadData()
         }
     }
@@ -70,7 +70,13 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
     private let indexView = UIView.init(frame: CGRect.init(x: 0, y: 38, width: 60, height: 2))
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+
         super.init(frame: frame, collectionViewLayout: layout)
+        
+        let flowLayout = layout as! UICollectionViewFlowLayout
+        flowLayout.itemSize = CGSize.init(width: 60, height: 38)
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumLineSpacing = 0;
         
         self.register(HomeNaciCollectionCell.self, forCellWithReuseIdentifier: "HomeNaciCollectionCell")
         
@@ -84,11 +90,12 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
         self.addSubview(indexView)
     }
     
-    private func moveIndexView(item:Int, collection:UICollectionView, animation:Bool)  {
-        let cell = collection.cellForItem(at: IndexPath.init(row: item, section: 0))
+    private func moveIndexView(item:Int, animation:Bool)  {
+        
+        let newFrame = CGRect.init(x: 60 * item, y: 38, width: 60, height: 2)
         let duration = animation ? 0.2:0.0
         UIView.animate(withDuration: duration) {
-            self.indexView.center = CGPoint.init(x: (cell?.center.x)!, y: 39)
+            self.indexView.frame = newFrame
         }
     }
     
