@@ -32,7 +32,10 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
         "squareCardCollection":SquareCardCollectionCell.self,
         "videoCollectionWithBrief":VideoCollectionWithBriefCell.self,
         "DynamicInfoCard":DynamicInfoCardCell.self,
-        "banner":HomeBannerCell.self
+        "banner":HomeBannerCell.self,
+        "banner2":HomeBannerCell.self,
+        "autoPlayFollowCard":AutoPlayFollowCard.self,
+        "pictureFollowCard":PictureFollowCardCell.self
         
     ]
     private let tableView = UITableView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 300), style: UITableViewStyle.plain)
@@ -93,6 +96,9 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
             
             self.totalCount += result!.count
             self.itemList.addObjects(from: result! as! [HomeItemModel])
+            for item  in self.itemList {
+                
+            }
             self.tableView.reloadData()
         }
     }

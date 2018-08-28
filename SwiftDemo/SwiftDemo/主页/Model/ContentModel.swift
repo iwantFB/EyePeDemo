@@ -88,6 +88,8 @@ class ContentDataModel: HomeDataHeaderModel {
     var tags:Array<ContentTagsModel>?
     var author:AuthorModel?
     var playInfo :Array<PlayInfoModel>?
+    
+    var url:String?
 
     required init(){}
 }

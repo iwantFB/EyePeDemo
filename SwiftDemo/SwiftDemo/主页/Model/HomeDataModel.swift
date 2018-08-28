@@ -26,6 +26,7 @@ class HomeDataHeaderModel : HandyJSON{
     var showHateVideo:Bool?
     var time:Double?
     var follow: AuthorFollowModel?
+    var issuerName:String?
     
     required init(){}
 }

@@ -38,6 +38,8 @@
 		7A00D340207E44B400A297BD /* FollowCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A00D33F207E44B400A297BD /* FollowCardCell.swift */; };
 		7A00D342207E639900A297BD /* VideoSmallCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A00D341207E639900A297BD /* VideoSmallCardCell.swift */; };
 		7A00D344207E6D3100A297BD /* BriefCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A00D343207E6D3100A297BD /* BriefCardCell.swift */; };
+		7A131DF42133FB6E00974066 /* AutoPlayFollowCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A131DF32133FB6E00974066 /* AutoPlayFollowCard.swift */; };
+		7A131DF7213401DA00974066 /* PictureFollowCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A131DF5213401DA00974066 /* PictureFollowCardCell.swift */; };
 		7A2133EF2081D7EB0089A483 /* DynamicInfoCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2133EE2081D7EB0089A483 /* DynamicInfoCardCell.swift */; };
 		7A2133F12081F5000089A483 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2133F02081F5000089A483 /* UserModel.swift */; };
 		7A2133F32082070A0089A483 /* ReplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2133F22082070A0089A483 /* ReplyModel.swift */; };
@@ -102,6 +104,8 @@
 		7A00D33F207E44B400A297BD /* FollowCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowCardCell.swift; sourceTree = "<group>"; };
 		7A00D341207E639900A297BD /* VideoSmallCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSmallCardCell.swift; sourceTree = "<group>"; };
 		7A00D343207E6D3100A297BD /* BriefCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BriefCardCell.swift; sourceTree = "<group>"; };
+		7A131DF32133FB6E00974066 /* AutoPlayFollowCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoPlayFollowCard.swift; sourceTree = "<group>"; };
+		7A131DF5213401DA00974066 /* PictureFollowCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureFollowCardCell.swift; sourceTree = "<group>"; };
 		7A2133EE2081D7EB0089A483 /* DynamicInfoCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicInfoCardCell.swift; sourceTree = "<group>"; };
 		7A2133F02081F5000089A483 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		7A2133F22082070A0089A483 /* ReplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyModel.swift; sourceTree = "<group>"; };
@@ -239,6 +243,8 @@
 				7A00D343207E6D3100A297BD /* BriefCardCell.swift */,
 				7A99FADA207F91E3000B8019 /* VideoCollectionWithBriefCell.swift */,
 				7A2133EE2081D7EB0089A483 /* DynamicInfoCardCell.swift */,
+				7A131DF32133FB6E00974066 /* AutoPlayFollowCard.swift */,
+				7A131DF5213401DA00974066 /* PictureFollowCardCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -526,6 +532,7 @@
 				6555C9422073690800E0E08E /* AppDelegate.swift in Sources */,
 				7A00D340207E44B400A297BD /* FollowCardCell.swift in Sources */,
 				6555C9812073879C00E0E08E /* SquareCardCollectionViewCell.swift in Sources */,
+				7A131DF42133FB6E00974066 /* AutoPlayFollowCard.swift in Sources */,
 				7A2133EF2081D7EB0089A483 /* DynamicInfoCardCell.swift in Sources */,
 				6565072C207B5E7000755C98 /* TextCardCell.swift in Sources */,
 				7A00D338207CF58000A297BD /* AuthorModel.swift in Sources */,
@@ -536,6 +543,7 @@
 				6555C98D207463D000E0E08E /* FHNavigationViewController.swift in Sources */,
 				7A00D33A207CF6DC00A297BD /* CoverModel.swift in Sources */,
 				7A00D342207E639900A297BD /* VideoSmallCardCell.swift in Sources */,
+				7A131DF7213401DA00974066 /* PictureFollowCardCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

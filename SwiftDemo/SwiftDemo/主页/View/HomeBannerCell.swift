@@ -26,6 +26,11 @@ class HomeBannerCell : HomeBaseCell {
         self.contentView.addSubview(bannerImageView)
         bannerImageView.layer.cornerRadius = 2
         bannerImageView.layer.masksToBounds = true
+        bannerImageView.snp.makeConstraints { (make) in
+            make.height.equalTo(HomeCellImageView_Height)
+            make.top.left.equalToSuperview().offset(15)
+            make.bottom.right.equalToSuperview().offset(-15)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
