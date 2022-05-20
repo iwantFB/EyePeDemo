@@ -45,6 +45,12 @@
 		7A2133F32082070A0089A483 /* ReplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2133F22082070A0089A483 /* ReplyModel.swift */; };
 		7A99FADB207F91E3000B8019 /* VideoCollectionWithBriefCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A99FADA207F91E3000B8019 /* VideoCollectionWithBriefCell.swift */; };
 		BF97E08D87E5128A1A88D782 /* Pods_SwiftDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21A206589672D3EA2A720DCE /* Pods_SwiftDemo.framework */; };
+		FAFC1567283798D60044771B /* AkzidenzGrotesk-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = FAFC1561283798D20044771B /* AkzidenzGrotesk-Light.otf */; };
+		FAFC1568283798D60044771B /* SourceHanSansCN-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = FAFC1562283798D30044771B /* SourceHanSansCN-Medium.otf */; };
+		FAFC1569283798D60044771B /* SourceHanSansCN-Normal.otf in Resources */ = {isa = PBXBuildFile; fileRef = FAFC1563283798D40044771B /* SourceHanSansCN-Normal.otf */; };
+		FAFC156A283798D60044771B /* SourceHanSansCN-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FAFC1564283798D50044771B /* SourceHanSansCN-Regular.otf */; };
+		FAFC156B283798D60044771B /* AkzidenzGrotesk-MediumCond.otf in Resources */ = {isa = PBXBuildFile; fileRef = FAFC1565283798D50044771B /* AkzidenzGrotesk-MediumCond.otf */; };
+		FAFC156C283798D60044771B /* SourceHanSansCN-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = FAFC1566283798D60044771B /* SourceHanSansCN-Light.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +117,12 @@
 		7A2133F22082070A0089A483 /* ReplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyModel.swift; sourceTree = "<group>"; };
 		7A99FADA207F91E3000B8019 /* VideoCollectionWithBriefCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCollectionWithBriefCell.swift; sourceTree = "<group>"; };
 		FA365D5A05E2C805EA8E8A54 /* Pods-SwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftDemo/Pods-SwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
+		FAFC1561283798D20044771B /* AkzidenzGrotesk-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AkzidenzGrotesk-Light.otf"; sourceTree = "<group>"; };
+		FAFC1562283798D30044771B /* SourceHanSansCN-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansCN-Medium.otf"; sourceTree = "<group>"; };
+		FAFC1563283798D40044771B /* SourceHanSansCN-Normal.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansCN-Normal.otf"; sourceTree = "<group>"; };
+		FAFC1564283798D50044771B /* SourceHanSansCN-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansCN-Regular.otf"; sourceTree = "<group>"; };
+		FAFC1565283798D50044771B /* AkzidenzGrotesk-MediumCond.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AkzidenzGrotesk-MediumCond.otf"; sourceTree = "<group>"; };
+		FAFC1566283798D60044771B /* SourceHanSansCN-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansCN-Light.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +185,7 @@
 		6555C9402073690800E0E08E /* SwiftDemo */ = {
 			isa = PBXGroup;
 			children = (
+				FAFC1560283798B50044771B /* resource */,
 				6555C98F20746D6D00E0E08E /* 公共 */,
 				6555C976207380B800E0E08E /* 发现 */,
 				6555C978207380B800E0E08E /* 通知 */,
@@ -311,6 +324,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FAFC1560283798B50044771B /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				FAFC1561283798D20044771B /* AkzidenzGrotesk-Light.otf */,
+				FAFC1565283798D50044771B /* AkzidenzGrotesk-MediumCond.otf */,
+				FAFC1566283798D60044771B /* SourceHanSansCN-Light.otf */,
+				FAFC1562283798D30044771B /* SourceHanSansCN-Medium.otf */,
+				FAFC1563283798D40044771B /* SourceHanSansCN-Normal.otf */,
+				FAFC1564283798D50044771B /* SourceHanSansCN-Regular.otf */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -323,7 +349,6 @@
 				6555C93B2073690800E0E08E /* Frameworks */,
 				6555C93C2073690800E0E08E /* Resources */,
 				668D53477AB66805A48D22C6 /* [CP] Embed Pods Frameworks */,
-				FD722B85860B8DB861DF23C9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -421,9 +446,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAFC1567283798D60044771B /* AkzidenzGrotesk-Light.otf in Resources */,
+				FAFC1569283798D60044771B /* SourceHanSansCN-Normal.otf in Resources */,
+				FAFC1568283798D60044771B /* SourceHanSansCN-Medium.otf in Resources */,
+				FAFC156C283798D60044771B /* SourceHanSansCN-Light.otf in Resources */,
 				6555C94C2073690800E0E08E /* LaunchScreen.storyboard in Resources */,
 				6555C9492073690800E0E08E /* Assets.xcassets in Resources */,
 				6555C97F207384BA00E0E08E /* SquareCardCollectionViewCell.xib in Resources */,
+				FAFC156B283798D60044771B /* AkzidenzGrotesk-MediumCond.otf in Resources */,
+				FAFC156A283798D60044771B /* SourceHanSansCN-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,7 +481,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-SwiftDemo/Pods-SwiftDemo-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-SwiftDemo/Pods-SwiftDemo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
 				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
@@ -469,7 +500,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftDemo/Pods-SwiftDemo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SwiftDemo/Pods-SwiftDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B30B2FC2A3834495F0A90EC4 /* [CP] Check Pods Manifest.lock */ = {
@@ -488,21 +519,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FD722B85860B8DB861DF23C9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftDemo/Pods-SwiftDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -705,6 +721,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UFCUZ4TD33;
 				INFOPLIST_FILE = SwiftDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hufei.SwiftDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -721,6 +738,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UFCUZ4TD33;
 				INFOPLIST_FILE = SwiftDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hufei.SwiftDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";

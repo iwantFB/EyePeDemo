@@ -1,11 +1,11 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '9.0'  
+platform :ios, '13.0'
 use_frameworks!  
 target 'SwiftDemo' do   
-	pod 'Alamofire', '~> 4.7'
+	pod 'Alamofire'
 	pod 'SwiftyJSON'
-	pod 'SnapKit', '~> 4.0.0'
-	pod 'SDWebImage', '~> 4.0'
+	pod 'SnapKit'
+	pod 'SDWebImage'
 	pod 'FSPagerView'
-	pod 'HandyJSON', '~> 4.1.1'
+	pod 'HandyJSON'
 end  

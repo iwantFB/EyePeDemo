@@ -43,10 +43,10 @@ class NetworkTool {
             urlString = NetConfi.hostName + APIString
         }
         
-        Alamofire.request(urlString,method:.get,parameters:parameters).responseJSON { (response) -> Void in
+        AF.request(urlString,method:.get,parameters:parameters).responseJSON { (response) -> Void in
             switch response.result {
             case .success:
-                if let value = response.result.value {
+                if let value = response.value {
                     let json = JSON(value)
                     if json[NetConfi.statusKey].stringValue == NetConfi.successValue{
                         finished(true, json, "")
@@ -71,89 +71,90 @@ class NetworkTool {
      - parameter finished:   完成回调
      */
     class func post(_ APIString: String, parameters: [String : AnyObject]?, finished: @escaping NetworkFinished) {
-        
-        var urlString = ""
-        if APIString.hasPrefix("http") {
-            urlString = APIString
-        } else {
-            urlString = NetConfi.hostName + APIString
-        }
-        Alamofire.request(urlString, method:.post,parameters: parameters).responseJSON { (response) -> Void in
-            switch response.result {
-            case .success:
-                if let value = response.result.value {
-                    let json = JSON(value)
-                    if json[NetConfi.statusKey].stringValue == NetConfi.successValue{
-                        finished(true, json, "")
-                    }else{
-                        let errorStr = json[NetConfi.errorMsgKey].stringValue
-                        finished(false, json, errorStr)
-                    }
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-                finished(false, JSON(""), "网络错误")
-            }
-        }
-    }
-    /**
-     multipartFormData方式上传图片
-     
-     - parameter APIString:  urlString
-     - parameter images:     图片
-     - parameter parameters: 普通参数
-     - parameter finished:   完成回调
-     */
-    class func uploadImage(_ APIString: String,images:[String : UIImage]? ,parameters: [String : String]?, finished: @escaping NetworkFinished)  {
-        var urlString = ""
-        if APIString.hasPrefix("http") {
-            urlString = APIString
-        } else {
-            urlString = NetConfi.hostName + APIString
-        }
-        Alamofire.upload(multipartFormData: { (multipartFormData) in
-            if let images = images{
-                for (key ,image) in images{
-                    if let imageData = UIImageJPEGRepresentation(image,0.1){
-                        multipartFormData.append(imageData, withName: "icon", fileName: key + ".jpg", mimeType: "image/jpeg")
-                    }
-                }
-            }
-            if let parameters = parameters{
-                for (key , value) in parameters{
-                    if let data = value.data(using: String.Encoding.utf8, allowLossyConversion: false){
-                        multipartFormData.append(data, withName: key)
-                    }
-                }
-            }
-
-        }, to: urlString,method:.post) { (encodingResult) in
-            switch encodingResult {
-            case .success(let upload, _, _):
-                upload.responseJSON { response in
-                    switch response.result {
-                    case .success:
-                        if let value = response.result.value {
-                            let json = JSON(value)
-                            if json[NetConfi.statusKey].stringValue == NetConfi.successValue{
-                                finished(true, json, "")
-                            }else{
-                                let errorStr = json[NetConfi.errorMsgKey].stringValue
-                                finished(false, json, errorStr)
-                            }
-                        }
-                        
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                        finished(false, JSON(""), "网络错误")
-                        //                        finished(success: false, result: nil, errorDesc: "接收数据出错:"+error.localizedDescription)
-                    }
-                }
-            case .failure(let encodingError):
-                print(encodingError)
-                finished(false, JSON(""), "网络错误")
-                //                finished(success: false, result: nil, errorDesc: "数据上传出错:\(encodingError)")
-            }
-        }
+//
+//        var urlString = ""
+//        if APIString.hasPrefix("http") {
+//            urlString = APIString
+//        } else {
+//            urlString = NetConfi.hostName + APIString
+//        }
+//
+//        AF.request(urlString, method:.post,parameters: parameters).responseJSON { (response) -> Void in
+//            switch response.result {
+//            case .success:
+//                if let value = response.value {
+//                    let json = JSON(value)
+//                    if json[NetConfi.statusKey].stringValue == NetConfi.successValue{
+//                        finished(true, json, "")
+//                    }else{
+//                        let errorStr = json[NetConfi.errorMsgKey].stringValue
+//                        finished(false, json, errorStr)
+//                    }
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//                finished(false, JSON(""), "网络错误")
+//            }
+//        }
+//    }
+//    /**
+//     multipartFormData方式上传图片
+//
+//     - parameter APIString:  urlString
+//     - parameter images:     图片
+//     - parameter parameters: 普通参数
+//     - parameter finished:   完成回调
+//     */
+//    class func uploadImage(_ APIString: String,images:[String : UIImage]? ,parameters: [String : String]?, finished: @escaping NetworkFinished)  {
+//        var urlString = ""
+//        if APIString.hasPrefix("http") {
+//            urlString = APIString
+//        } else {
+//            urlString = NetConfi.hostName + APIString
+//        }
+//        AF.upload(multipartFormData: { (multipartFormData) in
+//            if let images = images{
+//                for (key ,image) in images{
+//                    if let imageData = UIImageJPEGRepresentation(image,0.1){
+//                        multipartFormData.append(imageData, withName: "icon", fileName: key + ".jpg", mimeType: "image/jpeg")
+//                    }
+//                }
+//            }
+//            if let parameters = parameters{
+//                for (key , value) in parameters{
+//                    if let data = value.data(using: String.Encoding.utf8, allowLossyConversion: false){
+//                        multipartFormData.append(data, withName: key)
+//                    }
+//                }
+//            }
+//
+//        }, to: urlString,method:.post) { (encodingResult) in
+//            switch encodingResult {
+//            case .success(let upload):
+//                upload.responseJSON { response in
+//                    switch response.result {
+//                    case .success:
+//                        if let value = response.result.value {
+//                            let json = JSON(value)
+//                            if json[NetConfi.statusKey].stringValue == NetConfi.successValue{
+//                                finished(true, json, "")
+//                            }else{
+//                                let errorStr = json[NetConfi.errorMsgKey].stringValue
+//                                finished(false, json, errorStr)
+//                            }
+//                        }
+//
+//                    case .failure(let error):
+//                        print(error.localizedDescription)
+//                        finished(false, JSON(""), "网络错误")
+//                        //                        finished(success: false, result: nil, errorDesc: "接收数据出错:"+error.localizedDescription)
+//                    }
+//                }
+//            case .failure(let encodingError):
+//                print(encodingError)
+//                finished(false, JSON(""), "网络错误")
+//                //                finished(success: false, result: nil, errorDesc: "数据上传出错:\(encodingError)")
+//            }
+//        }
     }
 }

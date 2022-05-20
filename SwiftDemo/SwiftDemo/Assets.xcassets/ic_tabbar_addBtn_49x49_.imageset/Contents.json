@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_tabbar_addBtn_49x49_@1x.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "ic_tabbar_addBtn_49x49_@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "ic_tabbar_addBtn_49x49_@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
