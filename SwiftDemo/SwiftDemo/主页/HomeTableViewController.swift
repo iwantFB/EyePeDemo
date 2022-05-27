@@ -17,7 +17,7 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
                 return
             }
             
-            getHomeData(url: url!)
+//            getHomeData(url: url!)
         }
     }
     
@@ -88,18 +88,5 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     }
     
     //MARK- network
-    private func getHomeData(url:String)  {
-        NetworkTool.get(url, parameters: nil) { (flag, json, cool) in
-            
-            guard flag else {return}
-            let result = [HomeItemModel].deserialize(from: json.rawString(), designatedPath:".itemList")
-            
-            self.totalCount += result!.count
-            self.itemList.addObjects(from: result! as! [HomeItemModel])
-            for item  in self.itemList {
-                
-            }
-            self.tableView.reloadData()
-        }
-    }
+
 }

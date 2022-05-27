@@ -15,6 +15,7 @@ class FHTabbar : UITabBar {
 
 class FHTabbarViewController : UITabBarController {
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         let tabbar = FHTabbar.init(frame: self.tabBar.frame)
         self.setValue(tabbar, forKeyPath: "tabBar")
@@ -41,4 +42,6 @@ class FHTabbarViewController : UITabBarController {
     private func configTabbarItem(vc:UIViewController ,title:NSString ) {
         vc.title = title as String;
     }
+    
+    
 }

@@ -11,15 +11,16 @@ import SnapKit
 import SwiftyJSON
 
 
-private let tabInfo = "tabInfo"
-private let tabList = "tabList"
+fileprivate let tabInfo = "tabInfo"
+fileprivate let tabList = "tabList"
 
 class HomeViewController : UIViewController, UIScrollViewDelegate{
     
     var naviTopView : HomeNaviCollectionView!
     let vcContentView = UIScrollView.init();
-    var itemList = NSMutableArray.init(){
+    var itemList: [NavList]? = Array<NavList>.init(){
         didSet{
+            guard let itemList = itemList else { return }
             
             let count = itemList.count
             let vcHeight = SCREEN_HEIGHT - TABBAR_HEIGHT - NAVIGATIONBAR_HEIGHT
@@ -32,19 +33,16 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
                 tableVC.view.frame = CGRect.init(x: CGFloat(i) * SCREEN_WIDTH, y: 0, width: SCREEN_WIDTH, height: vcHeight)
                 tableVC.didMove(toParentViewController: self)
             }
-            
-            self.naviTopView.itemList = itemList as! Array<Any>
-//            self.naviTopView.currentIndex = 1
-            selectedUrl()
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        getNetData()
         p_setupUI()
     }
     
-    private func p_setupUI() {
+    fileprivate func p_setupUI() {
         
         self.view.backgroundColor = UIColor.white
         
@@ -63,8 +61,10 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
         vcContentView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view).inset(UIEdgeInsets.init(top: NAVIGATIONBAR_HEIGHT, left: 0, bottom: TABBAR_HEIGHT, right: 0))
         }
-        
-        getNetData()
+    }
+    
+    fileprivate func configNaviItem(_ item: NaviItem?) {
+       
     }
 
     func selectedUrl(){
@@ -76,35 +76,15 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
     
     //MARK:- network
     private func getNetData()  {
-        let urlStr = "https://baobab.kaiyanapp.com/api/v5/index/tab/list"
 
-        NetworkTool.get(urlStr, parameters: nil) { (flag, json, cool) in
+        let data = HOME_GET_NAV.data(using: .utf8)
+        if let data = data {
+            let result = try? JSONDecoder().decode(HomeNavi.self, from: data)
             
-            var result:Dictionary<String,AnyObject>!
-            let urlRequest = URLRequest.init(url: URL.init(string: urlStr)!)
-            if flag {
-                //缓存
-                let res = URLCache.shared.cachedResponse(for: urlRequest)
-                if res != nil {
-                    print("缓存成功")
-                }
-                result = json.dictionaryObject! as Dictionary<String,AnyObject>
-            }else{
-                let response = URLCache.shared.cachedResponse(for: urlRequest)
-                if response == nil {
-                    print("没有缓存")
-                }else{
-                    do {
-                        try result = JSON.init(data: (response?.data)!).dictionaryObject! as Dictionary<String,AnyObject>
-
-                    }catch _ {
-                        return
-                    }
-                }
-            }
+            //开始配置主页导航栏相关数据
+            self.itemList = result?.navList
+            self.configNaviItem(result?.navItem)
             
-            
-            self.itemList = NSMutableArray.init(array: (result[tabInfo]![tabList])as!Array<Any>)
         }
     }
     

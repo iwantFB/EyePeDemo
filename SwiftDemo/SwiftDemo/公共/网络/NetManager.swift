@@ -1,160 +1,325 @@
-//
-//  NetManager.swift
-//  PointsMall
-//
-//  Created by 张飞 on 16/6/19.
-//  Copyright © 2016年 张飞. All rights reserved.
-//
+let COMMOM_CONFIG = """
 
-import Foundation
 
-import Alamofire
-import SwiftyJSON
+{
+    "start_page_ad": {},
+    "interaction_modal_ad": {},
+    "dynamic_modal_ad": {},
+    "native_video_ad": [],
+    "start_page": {
+        "image_url": "http://img.kaiyanapp.com/1cfadc77cd2fac519a5917993aa6045e.jpeg?imageMogr2/quality/90/format/jpg",
+        "action_url": "",
+        "version": "286"
+    },
+    "log": {
+        "play_log": false,
+        "version": "6"
+    },
+    "private_message_refresh": {
+        "control_msg_detail": 5,
+        "control_list": 30,
+        "version": "1"
+    },
+    "baobab_preload_videos": {
+        "list": [],
+        "version": 0
+    },
+    "preload_videos": {
+        "list": [],
+        "version": "6c8d5f5cb641b641b11a99f97d309e95"
+    },
+    "preload_images": {
+        "list": [],
+        "version": "6c8d5f5cb641b641b11a99f97d309e95"
+    },
+    "login_options": [{
+        "icon_url": "https://eyepetizer-videos.oss-cn-beijing.aliyuncs.com/config/icon/v2/wechat.png",
+        "type": "wechat",
+        "order": 1
+    }, {
+        "icon_url": "https://eyepetizer-videos.oss-cn-beijing.aliyuncs.com/config/icon/v2/weibo.png",
+        "type": "weibo",
+        "order": 2
+    }, {
+        "icon_url": "https://eyepetizer-videos.oss-cn-beijing.aliyuncs.com/config/icon/v2/qq.png",
+        "type": "qq",
+        "order": 3
+    }],
+    "preload": {
+        "version": "1",
+        "on": true
+    },
+    "campaign_in_detail": {
+        "image_url": "http://img.wdjimg.com/image/video/0298fef9efdf0a7cd5bae14e601aef3e_0_0.png",
+        "available": true,
+        "action_url": "https://itunes.apple.com/app/apple-store/id978591579?pt=118114084&ct=yingyongfuceng&mt=8",
+        "show_type": "today",
+        "version": "9"
+    },
+    "campaign_in_feed": {
+        "image_url": "http://img.wdjimg.com/image/video/cb286bc3b51f5051e7e26d545bdc7c6f_0_0.jpeg",
+        "available": false,
+        "action_url": "http://www.diaochapai.com/survey/81d23de9-583b-4c28-911b-6a9bd5fc6b3a",
+        "version": "35"
+    },
+    "is_homepage_search_enabled": true,
+    "reply": {
+        "version": "1",
+        "on": true
+    },
+    "auto_cache": {
+        "force_off": true,
+        "video_num": 10,
+        "version": "8"
+    },
+    "issue_cover": {
+        "issue_logo": {
+            "weekend_extra": "http://img.kaiyanapp.com/dfb9fcff59545a9fe3fc03f72d4be513.png?imageMogr2/quality/60/format/jpg",
+            "adapter": false
+        },
+        "version": "2"
+    },
+    "consumption": {
+        "display": true,
+        "version": "3"
+    },
+    "launch": {
+        "version": "1219",
+        "ad_track": []
+    },
+    "version": "175945",
+    "push": {
+        "start_time": 9,
+        "end_time": 22,
+        "message": "今天的日报已准备好，请享用！",
+        "version": "18"
+    },
+    "roaming_calendar": {
+        "image_url": "http://img.kaiyanapp.com/c61c6b201b6994f47d86e85489057579.png",
+        "action_url": "eyepetizer://roamingCalendarDaily?date=2022-05-24&tagId=1139&tagName=wanderlust 漫游癖",
+        "version": "11",
+        "is_show": true
+    },
+    "first_launch": {
+        "show_first_detail": false,
+        "version": "1"
+    },
+    "share_title": {
+        "weibo": "开眼 Eyepetizer",
+        "wechat_moments": "开眼 Eyepetizer",
+        "qzone": "开眼 Eyepetizer",
+        "version": "3"
+    },
+    "interceptor_ad_out_action_url": {
+        "control_switch": true,
+        "version": "1"
+    },
+    "homepage": {
+        "cover": "http://img.kaiyanapp.com/55483bf9c3c034e2963929dbbbd4d7fb.jpeg?imageMogr2/quality/60/format/jpg",
+        "version": "63"
+    }
 
-/// 网络请求回调闭包 success:是否成功  flag:预留参数  result:字典数据 error:错误信息
-typealias NetworkFinished = (_ success: Bool, _ result: JSON, _ errorDesc: String) -> ()
-
-enum NetConfi {
-    /// 请求状态判断key
-    static let statusKey = "result"
-    /// 成功状态下所对应的值转化为String的内容
-    static let successValue = ""
-    /// 错误状态下错误内容的key
-    static let errorMsgKey = "msg"
-    /// 域名  http://192.168.1.103/skg/     http://115.29.196.224/skg/  http://192.168.1.103/skg/skg_getdata.do
-//    static let hostName = "http://192.168.1.176/skg/"
-    static let hostName = "http://115.29.196.224/"
 }
-/// 对常用网络方法的封装
-class NetworkTool {
-    /**
-     GET请求
-     
-     - parameter URLString:  urlString
-     - parameter parameters: 参数
-     - parameter finished:   完成回调
-     */
-    class func get(_ APIString: String, parameters: [String : AnyObject]?, finished: @escaping NetworkFinished) {
-        
-        var urlString = ""
-        if APIString.hasPrefix("http") {
-            urlString = APIString
-        } else {
-            urlString = NetConfi.hostName + APIString
-        }
-        
-        AF.request(urlString,method:.get,parameters:parameters).responseJSON { (response) -> Void in
-            switch response.result {
-            case .success:
-                if let value = response.value {
-                    let json = JSON(value)
-                    if json[NetConfi.statusKey].stringValue == NetConfi.successValue{
-                        finished(true, json, "")
-                    }else{
-                        let errorStr = json[NetConfi.errorMsgKey].stringValue
-                        finished(false, json, errorStr)
-                    }
+
+"""
+
+let HOME_GET_NAV = """
+
+{
+    "style": "nav",
+    "nav_list": [{
+        "page_label": "recommend",
+        "page_type": "card",
+        "title": "推荐",
+        "url": "eyepetizer://page/mainpage?page_label=recommend&page_type=card",
+        "default_display": true,
+        "force_refresh": false,
+        "api_request": {},
+        "page_url": "selected",
+        "page_url_parameter": "title=推荐",
+        "is_recommend": true,
+        "child_nav": {
+            "fixed": [],
+            "slide": []
+        },
+        "enable_preload": true,
+        "preload_duration": 300,
+        "tracking_data": {
+            "show": [{
+                "sdk": "sensors",
+                "data": {
+                    "element_type": "nav",
+                    "element_title": "推荐",
+                    "element_id": 0,
+                    "element_label": "normal",
+                    "relative_index": 0
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
-                finished(false, JSON(""), "网络错误")
-            }
+            }],
+            "click": [{
+                "sdk": "sensors",
+                "data": {
+                    "element_type": "nav",
+                    "element_title": "推荐",
+                    "element_id": 0,
+                    "element_label": "normal",
+                    "relative_index": 0,
+                    "click_name": "查看详情",
+                    "click_action": "REDIRECT",
+                    "click_action_url": "eyepetizer://page/mainpage?page_label=recommend&page_type=card"
+                }
+            }]
         }
-        
-    }
-    
-    /**
-     POST请求
-     
-     - parameter URLString:  urlString
-     - parameter parameters: 参数
-     - parameter finished:   完成回调
-     */
-    class func post(_ APIString: String, parameters: [String : AnyObject]?, finished: @escaping NetworkFinished) {
-//
-//        var urlString = ""
-//        if APIString.hasPrefix("http") {
-//            urlString = APIString
-//        } else {
-//            urlString = NetConfi.hostName + APIString
-//        }
-//
-//        AF.request(urlString, method:.post,parameters: parameters).responseJSON { (response) -> Void in
-//            switch response.result {
-//            case .success:
-//                if let value = response.value {
-//                    let json = JSON(value)
-//                    if json[NetConfi.statusKey].stringValue == NetConfi.successValue{
-//                        finished(true, json, "")
-//                    }else{
-//                        let errorStr = json[NetConfi.errorMsgKey].stringValue
-//                        finished(false, json, errorStr)
-//                    }
-//                }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//                finished(false, JSON(""), "网络错误")
-//            }
-//        }
-//    }
-//    /**
-//     multipartFormData方式上传图片
-//
-//     - parameter APIString:  urlString
-//     - parameter images:     图片
-//     - parameter parameters: 普通参数
-//     - parameter finished:   完成回调
-//     */
-//    class func uploadImage(_ APIString: String,images:[String : UIImage]? ,parameters: [String : String]?, finished: @escaping NetworkFinished)  {
-//        var urlString = ""
-//        if APIString.hasPrefix("http") {
-//            urlString = APIString
-//        } else {
-//            urlString = NetConfi.hostName + APIString
-//        }
-//        AF.upload(multipartFormData: { (multipartFormData) in
-//            if let images = images{
-//                for (key ,image) in images{
-//                    if let imageData = UIImageJPEGRepresentation(image,0.1){
-//                        multipartFormData.append(imageData, withName: "icon", fileName: key + ".jpg", mimeType: "image/jpeg")
-//                    }
-//                }
-//            }
-//            if let parameters = parameters{
-//                for (key , value) in parameters{
-//                    if let data = value.data(using: String.Encoding.utf8, allowLossyConversion: false){
-//                        multipartFormData.append(data, withName: key)
-//                    }
-//                }
-//            }
-//
-//        }, to: urlString,method:.post) { (encodingResult) in
-//            switch encodingResult {
-//            case .success(let upload):
-//                upload.responseJSON { response in
-//                    switch response.result {
-//                    case .success:
-//                        if let value = response.result.value {
-//                            let json = JSON(value)
-//                            if json[NetConfi.statusKey].stringValue == NetConfi.successValue{
-//                                finished(true, json, "")
-//                            }else{
-//                                let errorStr = json[NetConfi.errorMsgKey].stringValue
-//                                finished(false, json, errorStr)
-//                            }
-//                        }
-//
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                        finished(false, JSON(""), "网络错误")
-//                        //                        finished(success: false, result: nil, errorDesc: "接收数据出错:"+error.localizedDescription)
-//                    }
-//                }
-//            case .failure(let encodingError):
-//                print(encodingError)
-//                finished(false, JSON(""), "网络错误")
-//                //                finished(success: false, result: nil, errorDesc: "数据上传出错:\(encodingError)")
-//            }
-//        }
+    }, {
+        "page_label": "follow",
+        "page_type": "card",
+        "title": "关注",
+        "url": "eyepetizer://page/mainpage?page_label=follow&page_type=card",
+        "default_display": false,
+        "force_refresh": false,
+        "api_request": {},
+        "page_url": "selected",
+        "page_url_parameter": "title=关注",
+        "is_recommend": false,
+        "child_nav": {
+            "fixed": [],
+            "slide": []
+        },
+        "enable_preload": true,
+        "preload_duration": 15,
+        "tracking_data": {
+            "show": [{
+                "sdk": "sensors",
+                "data": {
+                    "element_type": "nav",
+                    "element_title": "关注",
+                    "element_id": 0,
+                    "element_label": "normal",
+                    "relative_index": 1
+                }
+            }],
+            "click": [{
+                "sdk": "sensors",
+                "data": {
+                    "element_type": "nav",
+                    "element_title": "关注",
+                    "element_id": 0,
+                    "element_label": "normal",
+                    "relative_index": 1,
+                    "click_name": "查看详情",
+                    "click_action": "REDIRECT",
+                    "click_action_url": "eyepetizer://page/mainpage?page_label=follow&page_type=card"
+                }
+            }]
+        }
+    }, {
+        "page_label": "daily_issue",
+        "page_type": "card",
+        "title": "日报",
+        "url": "eyepetizer://page/mainpage?page_label=daily_issue&page_type=card",
+        "default_display": false,
+        "force_refresh": false,
+        "api_request": {},
+        "page_url": "selected",
+        "page_url_parameter": "title=日报",
+        "is_recommend": false,
+        "child_nav": {
+            "fixed": [],
+            "slide": []
+        },
+        "enable_preload": true,
+        "preload_duration": 300,
+        "tracking_data": {
+            "show": [{
+                "sdk": "sensors",
+                "data": {
+                    "element_type": "nav",
+                    "element_title": "日报",
+                    "element_id": 0,
+                    "element_label": "normal",
+                    "relative_index": 2
+                }
+            }],
+            "click": [{
+                "sdk": "sensors",
+                "data": {
+                    "element_type": "nav",
+                    "element_title": "日报",
+                    "element_id": 0,
+                    "element_label": "normal",
+                    "relative_index": 2,
+                    "click_name": "查看详情",
+                    "click_action": "REDIRECT",
+                    "click_action_url": "eyepetizer://page/mainpage?page_label=daily_issue&page_type=card"
+                }
+            }]
+        }
+    }],
+    "nav_item": {
+        "left": [{
+            "type": "default",
+            "label": "logo",
+            "tracking_data": {
+                "show": [{
+                    "sdk": "sensors",
+                    "data": {
+                        "element_type": "nav_item",
+                        "element_title": "logo",
+                        "element_content": "",
+                        "element_id": 0,
+                        "element_label": "normal",
+                        "relative_index": 0
+                    }
+                }],
+                "click": [{
+                    "sdk": "sensors",
+                    "data": {
+                        "element_type": "nav_item",
+                        "element_title": "logo",
+                        "element_content": "",
+                        "element_id": 0,
+                        "element_label": "normal",
+                        "relative_index": 0,
+                        "click_name": "查看详情",
+                        "click_action": "REDIRECT",
+                        "click_action_url": ""
+                    }
+                }]
+            }
+        }],
+        "center": [],
+        "right": [{
+            "type": "default",
+            "label": "notice",
+            "link": "eyepetizer://notification2",
+            "tracking_data": {
+                "show": [{
+                    "sdk": "sensors",
+                    "data": {
+                        "element_type": "nav_item",
+                        "element_title": "notice",
+                        "element_content": "",
+                        "element_id": 0,
+                        "element_label": "normal",
+                        "relative_index": 0
+                    }
+                }],
+                "click": [{
+                    "sdk": "sensors",
+                    "data": {
+                        "element_type": "nav_item",
+                        "element_title": "notice",
+                        "element_content": "",
+                        "element_id": 0,
+                        "element_label": "normal",
+                        "relative_index": 0,
+                        "click_name": "查看详情",
+                        "click_action": "REDIRECT",
+                        "click_action_url": ""
+                    }
+                }]
+            }
+        }]
     }
 }
+
+"""
