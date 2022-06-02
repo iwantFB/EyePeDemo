@@ -32,12 +32,12 @@ struct TrackingData: Codable {
 
 struct NaviItemConfig: Codable {
 
-  enum CodingKeys: String, CodingKey {
-    case type
-    case label
-    case trackingData = "tracking_data"
-    case link
-  }
+    enum CodingKeys: String, CodingKey {
+        case type
+        case label
+        case link
+        case trackingData = "tracking_data"
+    }
 
   var type: String?
   var label: String
@@ -55,12 +55,30 @@ struct NaviItemConfig: Codable {
     
     var image: UIImage? {
         get {
+            //此处应该有对应的生成规则
             let imageNameMap:[String:String] = [
-                "logo":"word_logo_black_146x29_",
+                "logo":"et_nav_logo_110x25_",
                 "notice": "et_nav_message_46x46_",
                 "": "et_nav_search_46x46_"
             ]
             return  imageNameMap[label].flatMap{ UIImage(named: $0) }
+        }
+    }
+    
+    var navItem: UIBarButtonItem {
+        //根据type label 决定显示什么图标 ， link 决定是否需要跳转(暂时用不上type)
+        get {
+            let btn = BaseControl(dataConfig: self.link ?? "") { data in
+                print(data)
+            }
+            
+            let imageView = UIImageView(image: self.image)
+            btn.addSubview(imageView)
+            imageView.snp.makeConstraints { make in
+                make.edges.equalTo(btn)
+            }
+            
+            return UIBarButtonItem(customView: btn)
         }
     }
 
@@ -69,8 +87,13 @@ struct NaviItemConfig: Codable {
 struct DataConfig: Codable {
     
     enum CodingKeys: String, CodingKey {
-        case elementTitle = "element_title"
+        case cardType = "card_type"
+        case cardTitle = "card_title"
+        case elementIndex = "element_index"
         case elementType = "element_type"
+        case devDataSource = "dev_data_source"
+        case metroId = "metro_id"
+        case elementTitle = "element_title"
         case relativeIndex = "relative_index"
         case elementLabel = "element_label"
         case elementId = "element_id"
@@ -78,6 +101,19 @@ struct DataConfig: Codable {
         case clickAction = "click_action"
         case clickActionUrl = "click_action_url"
         case elementContent = "element_content"
+        case pageUrl = "page_url"
+        case pageUrlParameter = "page_url_parameter"
+        case devRecommendRecallType = "dev_recommend_recall_type"
+        case devIsNewUser = "dev_is_new_user"
+        case devReleaseTime = "dev_release_time"
+        case cardId = "card_id"
+        case viewUrl
+        case organization
+        case clickUrl
+        case monitorPositions
+        case cardIndex = "card_index"
+        case needExtraParams
+        case playUrl = "play_url"
     }
     
     var elementTitle: String = ""
@@ -89,6 +125,24 @@ struct DataConfig: Codable {
     var clickName: String?
     var clickAction: String?
     var clickActionUrl: String?
+    var pageUrl: String?
+    var pageUrlParameter: String?
+    var cardType: String?
+    var elementIndex: Int?
+    var devDataSource: String?
+    var metroId: Int?
+    var clickUrl: String?
+    var monitorPositions: String?
+    var cardIndex: Int?
+    var devReleaseTime: String?
+    var organization: String?
+    var cardTitle: String?
+    var viewUrl: String?
+    var needExtraParams: [EmptyConfig]?//未知数据类型
+    var playUrl: String?
+    var devRecommendRecallType: String?
+    var devIsNewUser: Int?
+    var cardId: Int?
     
     
     
@@ -104,6 +158,24 @@ struct DataConfig: Codable {
         clickName = try container.decodeIfPresent(String.self, forKey: .clickName)
         clickAction = try container.decodeIfPresent(String.self, forKey: .clickAction)
         clickActionUrl = try container.decodeIfPresent(String.self, forKey: .clickActionUrl)
+        pageUrl = try container.decodeIfPresent(String.self, forKey: .pageUrl)
+        cardType = try container.decodeIfPresent(String.self, forKey: .cardType)
+        elementIndex = try container.decodeIfPresent(Int.self, forKey: .elementIndex)
+        devDataSource = try container.decodeIfPresent(String.self, forKey: .devDataSource)
+        metroId = try container.decodeIfPresent(Int.self, forKey: .metroId)
+        clickUrl = try container.decodeIfPresent(String.self, forKey: .clickUrl)
+        elementContent = try container.decodeIfPresent(String.self, forKey: .elementContent)
+        monitorPositions = try container.decodeIfPresent(String.self, forKey: .monitorPositions)
+        cardIndex = try container.decodeIfPresent(Int.self, forKey: .cardIndex)
+        devReleaseTime = try container.decodeIfPresent(String.self, forKey: .devReleaseTime)
+        organization = try container.decodeIfPresent(String.self, forKey: .organization)
+        cardTitle = try container.decodeIfPresent(String.self, forKey: .cardTitle)
+        viewUrl = try container.decodeIfPresent(String.self, forKey: .viewUrl)
+        needExtraParams = try container.decodeIfPresent([EmptyConfig].self, forKey: .needExtraParams)
+        playUrl = try container.decodeIfPresent(String.self, forKey: .playUrl)
+        devRecommendRecallType = try container.decodeIfPresent(String.self, forKey: .devRecommendRecallType)
+        devIsNewUser = try container.decodeIfPresent(Int.self, forKey: .devIsNewUser)
+        cardId = try container.decodeIfPresent(Int.self, forKey: .cardId)
     }
     
 }
@@ -217,22 +289,6 @@ final class NaviItem: Codable {
         left = try container.decodeIfPresent([NaviItemConfig].self, forKey: .left)
         center = try container.decodeIfPresent([NaviItemConfig].self, forKey: .center)
         right = try container.decodeIfPresent([NaviItemConfig].self, forKey: .right)
-    }
-    
-    var leftNavItem: [UIBarButtonItem] {
-        get {
-            guard let left = left else {
-                return []
-            }
-
-            return left.map{
-                UIBarButtonItem(customView: ActionButton.convertView(with: $0.trackingData!))
-            }
-        }
-    }
-    
-    @objc private func test() {
-        
     }
 }
 

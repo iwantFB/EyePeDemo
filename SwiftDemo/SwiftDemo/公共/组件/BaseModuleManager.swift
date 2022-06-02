@@ -9,19 +9,32 @@
 import Foundation
 import UIKit
 
-protocol ModuleManagerProtocol {
-    func deal(with data: DataConfig) -> UIView
+
+class BaseModuleManager: NSObject {
+    class func deal(with data: DataConfig) -> UIView? { return nil }
 }
 
-class SensorModule: NSObject, ModuleManagerProtocol {
-    static let share: SensorModule = SensorModule()
+struct ModuleManager {
+    static func dealModule(with config: ActionConfig) -> UIView? {
+        guard let sdk = config.sdk else{ return nil }
+        guard let data = config.data else { return nil }
+        
+        let typeStr = "\(sdk.capitalized)Module"
+        if let type = NSClassFromString("SwiftDemo.\(typeStr)"), type is BaseModuleManager.Type  {
+            
+            return (type as? BaseModuleManager.Type)?.deal(with: data)
+        }
+        
+        return nil
+    }
+}
+
+class SensorsModule: BaseModuleManager {
     
-    func deal(with data: DataConfig) -> UIView {
+    override class func deal(with data: DataConfig) -> UIView {
         let result: UIView = BaseControl(dataConfig: data) { data in
             guard let data = data else { return }
             
-            //action存在，交由中间件处理（暂时将逻辑放在这里，而且我觉得用if来判断，有点蠢，）
-            self.perform(NSSelectorFromString("\(data.clickAction!)_\(data.elementTitle)"), with: data.clickActionUrl)
             
         }
 
@@ -30,15 +43,15 @@ class SensorModule: NSObject, ModuleManagerProtocol {
 
 }
 
-class HttpModule: ModuleManagerProtocol {
-    func deal(with data: DataConfig) -> UIView {
+class HttpModule: BaseModuleManager {
+    override class func deal(with data: DataConfig) -> UIView {
         return UIView()
     }
 
 }
 
 //实现action
-extension SensorModule {
+extension SensorsModule {
     private func REDIRECT_notice() {
         print("TEST")
     }

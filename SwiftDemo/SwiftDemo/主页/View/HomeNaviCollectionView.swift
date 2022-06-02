@@ -19,6 +19,7 @@ class HomeNaciCollectionCell : UICollectionViewCell {
     }
     
     var titleLb = UILabel.init()
+    var indexView: UIImageView = UIImageView(image: UIImage(named: "et_tab_indicator_16x16_"))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,14 +28,20 @@ class HomeNaciCollectionCell : UICollectionViewCell {
     
     func p_setupUI()  {
         titleLb.font = UIFont.systemFont(ofSize: 12)
-        titleLb.textAlignment = .center
-        self.contentView.addSubview(titleLb)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
+        titleLb.textAlignment = .left
+        titleLb.textColor = .black
         
-        titleLb.frame = self.bounds
+        self.contentView.addSubview(indexView)
+        self.contentView.addSubview(titleLb)
+        
+        self.indexView.snp.makeConstraints { make in
+            make.leading.centerY.equalTo(self.contentView)
+            make.trailing.equalTo((titleLb.snp.leading))
+            make.size.equalTo(CGSize(width: 16, height: 16))
+        }
+        self.titleLb.snp.makeConstraints { make in
+            make.top.bottom.trailing.equalTo(self.contentView)
+        }
     }
 }
 
@@ -45,8 +52,8 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
     var postValueBlock:closureBlock?
     var currentUrl:String{
         get{
-            let dic:Dictionary<String,Any> = itemList[currentIndex] as! Dictionary<String,Any>
-            return dic[apiUrl] as! String
+            let navi = itemList[currentIndex]
+            return navi.url ?? ""
         }
     }
     
@@ -58,10 +65,18 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
             self.scrollToItem(at: IndexPath.init(row: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
             moveIndexView(item: currentIndex, animation: true)
             self.reloadData()
+            
+            let navi = itemList[currentIndex]
+            //只要这个值改变了，就要通知外面
+            if let action = postValueBlock {
+                action(currentIndex,navi.url ?? "")
+            }
+            
+            print("index changed")
         }
     }
     
-    var itemList : Array<Any>!{
+    var itemList : [NavList] = []{
         didSet{
             self.reloadData()
         }
@@ -85,9 +100,6 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
         
         self.showsHorizontalScrollIndicator = false
         self.backgroundColor = UIColor.clear
-        
-        indexView.backgroundColor = UIColor.purple
-        self.addSubview(indexView)
     }
     
     private func moveIndexView(item:Int, animation:Bool)  {
@@ -100,17 +112,17 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (itemList != nil) ? itemList!.count : 0;
+        return itemList.count;
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeNaciCollectionCell", for: indexPath) as! HomeNaciCollectionCell
         
-        let dic:Dictionary<String,Any> = itemList[indexPath.item] as! Dictionary<String,Any>
+        let naviConfig = itemList[indexPath.item]
         
-        cell.titleLb.text = (dic[name] as! String)
-        cell.titleLb.textColor = indexPath.item == currentIndex ? UIColor.gray : UIColor.black
+        cell.titleLb.text = naviConfig.title
+        cell.indexView.isHidden = indexPath.item != currentIndex
         return cell
     }
     
@@ -123,11 +135,7 @@ class HomeNaviCollectionView : UICollectionView,UICollectionViewDelegate,UIColle
             return
         }
         self.currentIndex = item
-        let dic:Dictionary<String,Any> = itemList[item] as! Dictionary<String,Any>
-        
-        if postValueBlock != nil{
-            postValueBlock!(indexPath.item,(dic[apiUrl] as! String))
-        }
+        let navi = itemList[item]
     }
     
     required init?(coder aDecoder: NSCoder) {

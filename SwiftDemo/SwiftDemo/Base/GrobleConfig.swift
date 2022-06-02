@@ -13,7 +13,8 @@ import UIKit
 let SCREEN_WIDTH = UIScreen.main.bounds.size.width
 let SCREEN_HEIGHT = UIScreen.main.bounds.size.height
 
-let isIphoneX = SCREEN_HEIGHT == 812 ? true : false
+//比20大就行，确保刘海屏有是iPhoneX类型
+let isIphoneX = (UIApplication.shared.statusBarFrame.size.height >= 33) ? true : false
 let NAVIGATIONBAR_HEIGHT : CGFloat = isIphoneX ? 88 : 64
 let STATUSBAR_HEIGHT : CGFloat = isIphoneX ? 44 : 20
 

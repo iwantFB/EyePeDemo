@@ -1,43 +1,51 @@
-//
-//  HomeTableViewController.swift
-//  SwiftDemo
-//
-//  Created by 夜站 on 2018/4/9.
-//  Copyright © 2018年 DEMO. All rights reserved.
-//
-
 import UIKit
 
 class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource {
     
     //请求参数
     var url:String? {
-        didSet{
-            guard url != nil else {
+        willSet{
+            
+            guard newValue != nil, url != newValue, let param = newValue?.components(separatedBy: "?").last else {
                 return
             }
+            let dataDic = [
+                "recommend":HOME_PAGE_RECOMMEND,
+                "follow":HOME_PAGE_RECOMMEND,
+                "daily_issue":HOME_PAGE_RECOMMEND,
+            ]
             
-//            getHomeData(url: url!)
+            //解析参数
+            let paramDic = param.components(separatedBy: "&").reduce(NSMutableDictionary()) { partialResult, item in
+                guard item.contains("=") else { return partialResult }
+                let dix = item.components(separatedBy: "=")
+                partialResult.addEntries(from: [dix.first!:dix.last!])
+                return partialResult
+            }
+            
+            let key = paramDic["page_label"] as! String
+            let netData = dataDic[key]!
+            
+            //异步处理
+            DispatchQueue.global().async {
+                //字符串->json->model
+                guard let jsonData = netData.data(using: .utf8),
+                      let model = try? JSONDecoder().decode(HomePageConfig.self, from: jsonData)
+                else { return }
+                
+                //主线程刷新数据
+                DispatchQueue.main.async {
+                    self.refreshPage(with: model.cardList , pageInfo: model.pageInfo )
+                }
+            }
+            
         }
     }
     
     private let itemList = NSMutableArray.init()
     private var totalCount = 0;
-    private let cellIdDic : Dictionary<String,AnyClass> = [
-        "horizontalScrollCard":HorizontalScrollCardCell.self,
-        "textCard":TextCardCell.self,
-        "followCard":FollowCardCell.self,
-        "videoSmallCard":VideoSmallCardCell.self,
-        "briefCard":BriefCardCell.self,
-        "squareCardCollection":SquareCardCollectionCell.self,
-        "videoCollectionWithBrief":VideoCollectionWithBriefCell.self,
-        "DynamicInfoCard":DynamicInfoCardCell.self,
-        "banner":HomeBannerCell.self,
-        "banner2":HomeBannerCell.self,
-        "autoPlayFollowCard":AutoPlayFollowCard.self,
-        "pictureFollowCard":PictureFollowCardCell.self
-        
-    ]
+    private let cellIdDic : Dictionary<String,AnyClass> = [:]
+    
     private let tableView = UITableView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 300), style: UITableViewStyle.plain)
     
     override func viewDidLoad() {
@@ -68,6 +76,13 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
         }
     }
     
+    private func refreshPage(with data: [CardListConfig]?, pageInfo page:PageInfo?) {
+        //pageinfo中，有效的值只有show_the_end
+        guard let cardList = data, let pageConfig = page else { return }
+        
+        
+    }
+    
     //MARK - delegate,datasource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
@@ -80,10 +95,7 @@ class HomeTableViewController: UIViewController ,UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let row = indexPath.row
-        let itemModel = self.itemList[row] as! HomeItemModel
-        let cell = HomeBaseCell.cellForTable(tableView: tableView, identifier: itemModel.type, indexPath: indexPath)
-        cell.itemModel = itemModel
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "UITableViewCell")
         return cell
     }
     

@@ -16,23 +16,31 @@ fileprivate let tabList = "tabList"
 
 class HomeViewController : UIViewController, UIScrollViewDelegate{
     
-    var naviTopView : HomeNaviCollectionView!
+    var naviTopView = HomeNaviCollectionView.init(frame: CGRect.init(x: 40, y: STATUSBAR_HEIGHT, width: SCREEN_WIDTH - 80.0, height: 40), collectionViewLayout: UICollectionViewFlowLayout.init())
     let vcContentView = UIScrollView.init();
-    var itemList: [NavList]? = Array<NavList>.init(){
+    var itemList: [NavList]? {
         didSet{
             guard let itemList = itemList else { return }
             
             let count = itemList.count
             let vcHeight = SCREEN_HEIGHT - TABBAR_HEIGHT - NAVIGATIONBAR_HEIGHT
             vcContentView.contentSize = CGSize.init(width: SCREEN_WIDTH * CGFloat(count), height: vcHeight)
-            for i in 0...itemList.count {
+            for i in 0..<count {
                 let tableVC = HomeTableViewController.init()
                 tableVC.willMove(toParentViewController: self)
                 self.addChildViewController(tableVC)
                 vcContentView.addSubview(tableVC.view)
                 tableVC.view.frame = CGRect.init(x: CGFloat(i) * SCREEN_WIDTH, y: 0, width: SCREEN_WIDTH, height: vcHeight)
                 tableVC.didMove(toParentViewController: self)
+                
+                if let shouldDisplay = itemList[i].defaultDisplay, shouldDisplay == true {
+
+                    tableVC.url = itemList[i].url
+                }
+                
             }
+            
+            self.naviTopView.itemList = itemList
         }
     }
 
@@ -46,17 +54,20 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
         
         self.view.backgroundColor = UIColor.white
         
-        naviTopView = HomeNaviCollectionView.init(frame: CGRect.init(x: 40, y: STATUSBAR_HEIGHT, width: SCREEN_WIDTH - 80.0, height: 40), collectionViewLayout: UICollectionViewFlowLayout.init())
         naviTopView.postValueBlock = { (index,apiUrl) in
             self.vcContentView.setContentOffset(CGPoint.init(x: CGFloat(index) * SCREEN_WIDTH, y: 0), animated: true)
-            
-            self.selectedUrl()
+            //将获取到的值更新到对应的控制器中
+            guard index < self.childViewControllers.count,
+                  let vc = self.childViewControllers[index]
+                    as? HomeTableViewController else { return }
+            vc.url = apiUrl
         }
         self.navigationItem.titleView = naviTopView
         
         self.view.addSubview(vcContentView)
-        vcContentView.contentSize = CGSize.init(width: SCREEN_WIDTH * 4, height: SCREEN_HEIGHT - TABBAR_HEIGHT - NAVIGATIONBAR_HEIGHT)
         vcContentView.isPagingEnabled = true
+        vcContentView.showsHorizontalScrollIndicator = false
+        vcContentView.showsVerticalScrollIndicator = false
         vcContentView.delegate = self
         vcContentView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view).inset(UIEdgeInsets.init(top: NAVIGATIONBAR_HEIGHT, left: 0, bottom: TABBAR_HEIGHT, right: 0))
@@ -64,14 +75,9 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
     }
     
     fileprivate func configNaviItem(_ item: NaviItem?) {
-       
-    }
-
-    func selectedUrl(){
-
-        let index = naviTopView.currentIndex
-        let tableVC = self.childViewControllers[index] as! HomeTableViewController
-        tableVC.url = naviTopView.currentUrl
+        self.navigationItem.leftBarButtonItems = item?.left!.map{ $0.navItem }
+        //TODO: 此处应该还有center的解析
+        self.navigationItem.rightBarButtonItems = item?.right!.map{ $0.navItem }
     }
     
     //MARK:- network
@@ -84,7 +90,6 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
             //开始配置主页导航栏相关数据
             self.itemList = result?.navList
             self.configNaviItem(result?.navItem)
-            
         }
     }
     
@@ -92,13 +97,6 @@ class HomeViewController : UIViewController, UIScrollViewDelegate{
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let offSetX = scrollView.contentOffset.x
         let index = Int(offSetX / SCREEN_WIDTH)
-        print("滑动 = \(naviTopView.currentUrl)")
         naviTopView.currentIndex = index
-        selectedUrl()
-    }
-    
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        //获取url
-        print("点击 = \(naviTopView.currentUrl)")
     }
 }
