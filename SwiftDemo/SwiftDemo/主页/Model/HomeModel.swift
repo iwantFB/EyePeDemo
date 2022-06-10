@@ -1,5 +1,6 @@
 
 import Foundation
+import UIKit
 
 struct AdMaterial: Codable {
 
@@ -119,7 +120,7 @@ struct Author: Codable {
 
   var type: String?
   var descriptionValue: String?
-  var avatar: Avatar?
+  var avatar: ImageItem?
   var followed: Bool?
   var uid: Int?
   var link: String?
@@ -131,7 +132,7 @@ struct Author: Codable {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     type = try container.decodeIfPresent(String.self, forKey: .type)
     descriptionValue = try container.decodeIfPresent(String.self, forKey: .descriptionValue)
-    avatar = try container.decodeIfPresent(Avatar.self, forKey: .avatar)
+    avatar = try container.decodeIfPresent(ImageItem.self, forKey: .avatar)
     followed = try container.decodeIfPresent(Bool.self, forKey: .followed)
     uid = try container.decodeIfPresent(Int.self, forKey: .uid)
     link = try container.decodeIfPresent(String.self, forKey: .link)
@@ -140,7 +141,7 @@ struct Author: Codable {
 
 }
 
-struct Avatar: Codable {
+struct ImageItem: Codable {
 
   enum CodingKeys: String, CodingKey {
     case imgInfo = "img_info"
@@ -169,11 +170,11 @@ struct Background: Codable {
     case color
   }
 
-  var color: String?
+  var color: String
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    color = try container.decodeIfPresent(String.self, forKey: .color)
+    color = try container.decodeIfPresent(String.self, forKey: .color) ?? ""
   }
 
 }
@@ -304,26 +305,6 @@ struct Click: Codable {
     child = try container.decodeIfPresent([Child].self, forKey: .child)
     data = try container.decodeIfPresent(Data.self, forKey: .data)
     sdk = try container.decodeIfPresent(String.self, forKey: .sdk)
-  }
-
-}
-
-struct Cover: Codable {
-
-  enum CodingKeys: String, CodingKey {
-    case imgInfo = "img_info"
-    case url
-  }
-
-  var imgInfo: ImgInfo?
-  var url: String?
-
-
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    imgInfo = try container.decodeIfPresent(ImgInfo.self, forKey: .imgInfo)
-    url = try container.decodeIfPresent(String.self, forKey: .url)
   }
 
 }
@@ -493,19 +474,19 @@ struct Margin: Codable {
     case left
   }
 
-  var right: Int?
-  var bottom: Int?
-  var top: Int?
-  var left: Int?
+  var right: Float
+  var bottom: Float
+  var top: Float
+  var left: Float
 
 
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    right = try container.decodeIfPresent(Int.self, forKey: .right)
-    bottom = try container.decodeIfPresent(Int.self, forKey: .bottom)
-    top = try container.decodeIfPresent(Int.self, forKey: .top)
-    left = try container.decodeIfPresent(Int.self, forKey: .left)
+    right = try container.decodeIfPresent(Float.self, forKey: .right) ?? 0
+    bottom = try container.decodeIfPresent(Float.self, forKey: .bottom) ?? 0
+    top = try container.decodeIfPresent(Float.self, forKey: .top) ?? 0
+    left = try container.decodeIfPresent(Float.self, forKey: .left) ?? 0
   }
 
 }
@@ -535,7 +516,7 @@ struct MetroData: Codable {
   var recommendLevel: String?
   var footer: MetroFooterConfig?
   var imageId: Int?
-  var cover: Cover?
+  var cover: ImageItem?
   var title: String?
   var author: Author?
   var cropArea: CropArea?
@@ -556,7 +537,7 @@ struct MetroData: Codable {
     recommendLevel = try container.decodeIfPresent(String.self, forKey: .recommendLevel)
     footer = try container.decodeIfPresent(MetroFooterConfig.self, forKey: .footer)
     imageId = try container.decodeIfPresent(Int.self, forKey: .imageId)
-    cover = try container.decodeIfPresent(Cover.self, forKey: .cover)
+    cover = try container.decodeIfPresent(ImageItem.self, forKey: .cover)
     title = try container.decodeIfPresent(String.self, forKey: .title)
     author = try container.decodeIfPresent(Author.self, forKey: .author)
     cropArea = try container.decodeIfPresent(CropArea.self, forKey: .cropArea)
@@ -756,8 +737,6 @@ struct SeparatorLine: Codable {
   var bottom: SeparatorLineConfig?
   var top: SeparatorLineConfig?
 
-
-
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     bottom = try container.decodeIfPresent(SeparatorLineConfig.self, forKey: .bottom)
@@ -926,27 +905,40 @@ struct LayoutConfig: Codable {
         case separatorLine = "separator_line"
         case background
         case padding
-        case tpl_label
+        case tplLabel = "tpl_label"
         case acrossColumn = "across_column"
     }
     
     var separatorLine: SeparatorLine?
     var background: Background?
     var padding: Padding?
-    var tpl_label: String?
+    //该参数决定视图的构造
+    var tplLabel: String?
     var acrossColumn: Bool?
-    
-    
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         separatorLine = try container.decodeIfPresent(SeparatorLine.self, forKey: .separatorLine)
         background = try container.decodeIfPresent(Background.self, forKey: .background)
         padding = try container.decodeIfPresent(Padding.self, forKey: .padding)
-        tpl_label = try container.decodeIfPresent(String.self, forKey: .tpl_label)
+        tplLabel = try container.decodeIfPresent(String.self, forKey: .tplLabel)
         acrossColumn = try container.decodeIfPresent(Bool.self, forKey: .acrossColumn)
     }
     
+}
+
+//MARK: LayoutConfig计算属性
+extension LayoutConfig {
+    var insets: UIEdgeInsets {
+        guard let top = padding?.top,
+              let left = padding?.left,
+              let bottom = padding?.bottom,
+              let right = padding?.right
+        else {
+            return .zero
+        }
+        return UIEdgeInsets(top: CGFloat(top), left: CGFloat(left), bottom: CGFloat(bottom), right: CGFloat(right))
+    }
 }
 
 struct CardHeaderFooterConfig: Codable {
